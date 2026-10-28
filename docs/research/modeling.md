@@ -145,4 +145,3 @@ The skill's internal prompt should cause the following loop without asking the u
 - The Blender Developer Blog asset-pipeline post is a 2021 design proposal. Use it for principles (interactive, non-destructive, integrated asset systems), not as a claim that every planned feature exists in Blender 5.2.
 - Automatic voxel/Quad remesh, Geometry Nodes and generated scripts are acceleration tools. They do not replace design reference, camera review, deformation tests or explicit dimensional verification.
 - A beauty render can hide topology, scale and manifold errors. Always pair it with a clay/wire/inspection view appropriate to the requested use.
-

@@ -79,4 +79,3 @@ playback_test: PASS | FAIL | NOT_TESTED
 
 This prevents generic file export from being reported as universal platform
 support.
-

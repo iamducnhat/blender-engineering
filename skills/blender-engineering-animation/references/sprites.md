@@ -193,4 +193,3 @@ other formats remain sequences. Preserve the `.tnz` scene and levels and do
 not claim that exporting one vector level includes the full scene camera
 animation. These routes are complementary editor backends, not proof that a
 single generic sprite atlas is accepted by every target.
-
