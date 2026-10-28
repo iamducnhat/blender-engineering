@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blender Engineering Animation"
+  short_description: "Create and optimize motion for the target platform"
+  default_prompt: "Use $blender-engineering-animation to create, inspect, and deliver animation suited to my target platform."

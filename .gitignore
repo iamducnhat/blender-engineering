@@ -1,0 +1,31 @@
+# Python and local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.venv/
+venv/
+env/
+dist/
+build/
+*.egg-info/
+
+# Operating-system and editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Local package-test state
+.agents/
+.claude/
+.codex/
+.npm/
+node_modules/
+
+# Local captures, archives, and delivery receipts are not public package input
+investigation/
+*.zip
+delivery-receipt.json
+osint-delivery-receipt.json

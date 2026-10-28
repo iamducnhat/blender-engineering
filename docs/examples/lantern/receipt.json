@@ -1,0 +1,148 @@
+{
+  "schema_version": "0.1",
+  "case_id": "forward-modeling-lantern",
+  "date": "2026-10-28",
+  "request": "Create a finished stylized forest-green camping lantern with a clear glass chamber, warm light, a carry handle, and small brass details. I want a polished3Dmodel I can open in Blender, with a clean product preview.",
+  "evaluation": "SELF_EVAL_ONLY",
+  "coverage": "One illustrative execution case, not a benchmark or universal aesthetic certification.",
+  "runtime": {
+    "blender": "5.2.0 LTS",
+    "build": "fbe6228777e7",
+    "beauty_engine": "CYCLES",
+    "beauty_samples": 32,
+    "beauty_resolution": [
+      720,
+      720
+    ]
+  },
+  "startup_reading": [
+    "SKILL.md",
+    "references/research-playbook.md",
+    "references/routing.md",
+    "references/hard-surface.md",
+    "references/revolve.md",
+    "references/materials.md",
+    "references/qa-recovery.md",
+    "references/tools.md"
+  ],
+  "structural": {
+    "status": "PASS",
+    "source_sha256": "567c76cc5a83674d32bc8c28dfd9c46bcb4ac4eb87d7c1ad81b12124f528c011",
+    "source_unchanged_during_validation": true,
+    "object_count": 47,
+    "units": {
+      "length_unit": "METERS",
+      "rotation_unit": "DEGREES",
+      "scale_length": 0.10000000149011612,
+      "system": "METRIC"
+    },
+    "dimensions_blender_units": [
+      2.5419126749038696,
+      2.0674999952316284,
+      4.65500020980835
+    ],
+    "approx_dimensions_meters": [
+      0.254191271278132,
+      0.2067500026039779,
+      0.4655000279173258
+    ],
+    "checks": {
+      "contract_loaded": "PASS",
+      "dimensions": "PASS",
+      "finite_world_geometry": "PASS",
+      "floor_contact": "PASS",
+      "missing_external_files": "PASS",
+      "required_parts": "PASS",
+      "units": "PASS"
+    },
+    "diagnostic_render_status": "PASS",
+    "diagnostic_views": [
+      "hero",
+      "front",
+      "side",
+      "back",
+      "top"
+    ]
+  },
+  "visual_review": {
+    "status": "VISUALLY_INSPECTED",
+    "evaluation_independence": "SELF_EVAL_ONLY",
+    "observations": [
+      "Green body, glass shell, diffuser, carry handle and brass hardware are visible from complementary views.",
+      "Localized material repair reduced the initial salmon emission and glass stippling.",
+      "Final720x720hero was directly inspected; glass is clear, emitter is a stylized orange diffuser."
+    ],
+    "hero_re_rendered_after_unit_fix": true,
+    "hero_decoded_RGB_identical_to_before_unit_fix": true,
+    "complementary_views": "Same accepted geometry/materials before the metadata-only unit correction."
+  },
+  "repairs": [
+    {
+      "defect": "Flat salmon diffuser and transparent-glass stipple.",
+      "change": "Localized material edit; use Cycles beauty evidence. Earlier checkpoint is retained locally."
+    },
+    {
+      "defect": "Inferred physical size was several meters for a hand-held object.",
+      "change": "Set METRIC scale_length0.1; fresh reopen and measured evaluated bounds approximately0.254x0.207x0.466m."
+    },
+    {
+      "defect": "Curve evaluated bounding box overstated rendered handle extents.",
+      "change": "Helper now uses evaluated mesh vertices; regression included."
+    },
+    {
+      "defect": "An agent-assumed scalar minimum expected1.5BU on everyhandleaxis and failed after correct curve measurement.",
+      "change": "Preserve failed receipt and amend only that mistaken technical assumption to [1.5,0.1,1.0]BU; named part, curve type and all user requirements retained.",
+      "prior_status": "FAIL",
+      "amendment_origin": "agent_assumption_corrected"
+    }
+  ],
+  "limits": [
+    "Render-focused editable prop, not print-ready, rig-ready or manufacturing-accurate.",
+    "Inferred dimensions; no physical product measurement.",
+    "No UV, watertightness, exact intersection or native game-engine proof.",
+    "Beauty script temporarily stages lighting/floor without overwriting source; editable preview rig remains in native file.",
+    "No external aesthetic acceptance; user taste is unevaluated."
+  ],
+  "artifacts": [
+    {
+      "path": "back.png",
+      "bytes": 511589,
+      "sha256": "102b6362a80ffb38db97add883185462c443c49c6fb0b489998fd6bbf989a1e5"
+    },
+    {
+      "path": "build_lantern.py",
+      "bytes": 16365,
+      "sha256": "dd6ec157f9a97a05ef48aff2f1791a9a29c1796030960a5df7df3032efaaea69"
+    },
+    {
+      "path": "forest_green_camping_lantern.blend",
+      "bytes": 395034,
+      "sha256": "567c76cc5a83674d32bc8c28dfd9c46bcb4ac4eb87d7c1ad81b12124f528c011"
+    },
+    {
+      "path": "front.png",
+      "bytes": 514438,
+      "sha256": "354d340e8bb7809be40ee84737d23a0e9bd3562e079361654332b72eaaa2955b"
+    },
+    {
+      "path": "hero.png",
+      "bytes": 500486,
+      "sha256": "03dd3a250a0b5c0f231c0e23d12feb7d9478e531a0b91f7e091a2717d50eb3e0"
+    },
+    {
+      "path": "render_presentation.py",
+      "bytes": 6926,
+      "sha256": "44b55f6074e89458201ef5cecf2b99d573da1a6ab7ced82296743567f73f2680"
+    },
+    {
+      "path": "side.png",
+      "bytes": 498114,
+      "sha256": "2e7d8dd2eb7f0dbf8d93910b2bcedad1812293d2cebebd73413d00b013500d93"
+    },
+    {
+      "path": "top.png",
+      "bytes": 481536,
+      "sha256": "12a46ed5cf465d011ea9146475029b417a2dd05edca715d49d40cf54bd78b49f"
+    }
+  ]
+}

@@ -1,0 +1,2033 @@
+[
+  {
+    "id": "AN01",
+    "title": "Subdivision Surface Modifier",
+    "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/generate/subdivision_surface.html",
+    "source_type": "official_blender_manual",
+    "published_or_updated": "Blender 5.2 LTS manual (page retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Full page text read, including Catmull-Clark/Simple modes, edge loops, creases, adaptive subdivision, performance warnings and normals limitations.",
+    "firsthand": true,
+    "findings": [
+      "Subdivision splits faces to create a smooth result while keeping a low-vertex control cage; modifier order materially changes the result.",
+      "Deliberate edge-loop placement controls sharpness and smoothness; a default cube becomes hard to recognize without supporting topology.",
+      "Catmull-Clark and Simple modes serve different goals; weighted edge creases, loops and normals control where a form stays sharp.",
+      "Higher levels cost memory. Adaptive subdivision can add detail based on camera distance or target pixel/edge size, while pixel-space instancing has limitations.",
+      "Abrupt/non-contiguous normals can make portions fall back to Simple subdivision; recalculating or manually flipping normals can fix this."
+    ],
+    "limitations": [
+      "The manual explains behavior, not a universal topology recipe for every asset.",
+      "Subdivision is not a substitute for a correct base silhouette or for manual deformation topology."
+    ],
+    "skill_implications": [
+      "Use SubD only when the requested finish needs smooth controllable surfaces or a subdivided sculpt/retopo; keep the control cage simple and readable.",
+      "Treat support loops/creases as responses to visible shape requirements, not a mandatory all-quads doctrine.",
+      "Set viewport and render levels separately, cap complexity, and use adaptive detail only after the hero camera and silhouette are stable.",
+      "Run normals and shading checks after every boolean/merge/retopo operation before judging aesthetic quality."
+    ],
+    "source_refs": [
+      "M02"
+    ]
+  },
+  {
+    "id": "AN02",
+    "title": "UV Unwrapping Introduction",
+    "url": "https://docs.blender.org/manual/en/latest/modeling/meshes/uv/unwrapping/introduction.html",
+    "source_type": "official_blender_manual",
+    "published_or_updated": "Blender 5.2 LTS manual (page retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Full page text read, including UV coordinate correspondence, island workflow, seams, test-image distortion check and timing guidance.",
+    "firsthand": true,
+    "findings": [
+      "UVs are a 2D projection of mesh vertices/edges/faces; every face can have multiple texture links.",
+      "The manual recommends unwrapping once geometry needs only minor changes, because later additions/subdivision may require additional UV edits.",
+      "General workflow is mark seams if needed, select faces, unwrap, adjust settings, add a test image to see distortion, then edit UVs."
+    ],
+    "limitations": [
+      "The introduction does not choose seam placement for a specific asset or define an exact texel-density target.",
+      "It does not cover the full material authoring or look-development loop."
+    ],
+    "skill_implications": [
+      "Do not unwrap a still-changing model too early; freeze major shape edits first.",
+      "Generate a test-grid preview and report stretching to the user automatically; place seams where they are hidden or stylistically plausible.",
+      "Allocate texel density by camera importance and surface role, with a deliberate low-detail/hidden policy instead of uniform over-resolution."
+    ],
+    "source_refs": [
+      "M05"
+    ]
+  },
+  {
+    "id": "AN03",
+    "title": "Modeling: Blender Studio Artist Guide",
+    "url": "https://studio.blender.org/tools/artist-guide/asset-creation/modeling",
+    "source_type": "official_blender_studio_production_guide",
+    "published_or_updated": "Work in Progress page dated 2023-10-17; retrieved 2026-10-27",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Full page text read, including organic, UV, hard-surface, blocking, refinement, testing, delivery and cleanup sections.",
+    "firsthand": true,
+    "findings": [
+      "The production model starts from an approved concept/design, then targets a handoff-ready asset rather than a merely attractive viewport mesh.",
+      "Organic handoff includes concept references, deformation tests, style limitations, final topology, optional UVs, shape keys, baked details, pivots and cleanup; retopology follows sculpt/loose modeling.",
+      "UV decisions are made with topology in mind; camera-near areas get more texture resolution while covered/hidden areas can be reduced or stripped.",
+      "Hard-surface work begins with measured references/blueprints and simple blocking. Mirror, Solidify, Bevel, Array, Edge Split, Boolean and Curve modifiers are used selectively for speed and flexibility.",
+      "Testing simplified movement feeds back into modeling; refinement adds detail, SubD/creases/manual bevels, and different-angle inspection protects large shapes. Delivery checks doubles, normals, scale, applied modifiers, UVs, naming, collections, placeholder materials and pivots."
+    ],
+    "limitations": [
+      "The page is explicitly Work in Progress and mixes studio practices with links to deeper material.",
+      "It assumes an approved design and a production team; a one-shot skill must synthesize missing references and make assumptions visible."
+    ],
+    "skill_implications": [
+      "Use a design brief/reference board as a gate before detailed modeling; preserve concept, silhouette and style constraints as first-class data.",
+      "Route organic assets through sculpt/blockout then retopo, and route hard-surface assets through measured blocking, modifier-first refinement and handoff cleanup.",
+      "Build a camera-aware detail budget: hero-facing surfaces receive geometry/UV/material effort; hidden surfaces remain lightweight unless they affect shadows, reflections or assembly."
+    ],
+    "source_refs": [
+      "M09"
+    ]
+  },
+  {
+    "id": "AN04",
+    "title": "Live Retopology at BCON22",
+    "url": "https://studio.blender.org/blog/live-retopology-at-bcon22/",
+    "source_type": "official_blender_studio_practitioner_blog",
+    "published_or_updated": "2022 (page retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Full article text read, including production-ready criteria, design mapping, edge flow, creases and articulation loops.",
+    "firsthand": true,
+    "findings": [
+      "Julien Kaspar frames good retopology as capturing needed shapes/details, keeping areas easy to select and remaining performance-efficient for viewport/render.",
+      "Quads and low stretch are desirable, but triangles/ngons can be valid when used deliberately; there is no universal all-quads rule.",
+      "Design exploration, expression tests and pose tests should happen before final topology decisions; a map of requirements replaces guessing.",
+      "Edge flow follows shape/muscle movement; primary/secondary creases use supporting loops at different distances; articulation zones such as eyes/mouth need multiple loops and proximity loops."
+    ],
+    "limitations": [
+      "The article is a concise recap rather than a full character retopo course and uses character-centric examples.",
+      "Loop counts are guidance for deforming faces, not a fixed requirement for static props."
+    ],
+    "skill_implications": [
+      "Before retopo, run a design map/turntable and any requested pose or expression tests; preserve edge flow around joints and facial landmarks.",
+      "Judge topology by deformation, selection, silhouette and performance, not by a simplistic quad percentage.",
+      "When the user is only a visual judge, show a clean clay/wire comparison and explain which detail is geometry versus texture."
+    ],
+    "source_refs": [
+      "M10"
+    ]
+  },
+  {
+    "id": "AN05",
+    "title": "Stylized Character Workflow",
+    "url": "https://studio.blender.org/training/stylized-character-workflow/",
+    "source_type": "official_blender_studio_training_by_practitioner",
+    "published_or_updated": "Course page current as retrieved 2026-10-27; authored by Julien Kaspar",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Full course index and chapter list read; lesson videos themselves were not downloaded. Curriculum includes design research, sculpting, retopology, UV, shading, lighting and presentation.",
+    "firsthand": true,
+    "findings": [
+      "The course describes a film-production workflow moving from research/design and primitive sculpting through stylization, expression tests, clean retopology, UV, shading, lighting and final presentation.",
+      "The curriculum explicitly separates design/shape exploration from retopology and includes edge flow, patches/poles, creases, articulation, remeshing, UV and detail extraction materials.",
+      "The page exposes production .blend files, turnaround/wire renders and development tests for the Rain and Snow characters, making the workflow inspectable beyond a final beauty image."
+    ],
+    "limitations": [
+      "Many lessons require a Blender Studio subscription and the page is a curriculum index; this record does not claim to have watched every lesson.",
+      "The workflow is character-focused and should not be copied wholesale to static props or CAD-like assets."
+    ],
+    "skill_implications": [
+      "For organic characters, default to primitive/sculpted shape exploration, a visual design checkpoint, expression/pose tests, then retopo and detail reprojection.",
+      "Keep a stylization reference and a shape hierarchy (primary/secondary/tertiary) so a novice's aesthetic judgment can be expressed as visual comparisons rather than topology instructions.",
+      "Deliver wire/clay/turntable evidence alongside the final render to expose whether the result's appeal comes from silhouette, surface detail or lighting."
+    ],
+    "source_refs": [
+      "M11"
+    ]
+  },
+  {
+    "id": "AN06",
+    "title": "Asset Creation Pipeline Design",
+    "url": "https://code.blender.org/2021/06/asset-creation-pipeline-design/",
+    "source_type": "official_blender_developer_blog",
+    "published_or_updated": "2021-06-15; retrieved 2026-10-27",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Full article text read, including interactive-versus-data-heavy design goals, deformable bases, procedural details, geometry nodes, painting, retopology and asset handoff implications.",
+    "firsthand": true,
+    "findings": [
+      "Pablo Dobarro describes a pipeline for characters, props and environments that embraces Blender's interactive viewport feedback rather than treating interactivity as optional.",
+      "The design combines deformation tools for base shapes with procedural shaders and Geometry Nodes for non-destructive detail, while acknowledging the need to handle large data amounts.",
+      "The post treats an asset as an object rendered in a final scene and connects modeling, painting, retopology, modifiers and procedural effects as interacting systems."
+    ],
+    "limitations": [
+      "This is a design proposal/roadmap from 2021, not a promise that every planned feature exists in 5.2.",
+      "It does not specify a one-shot prompting protocol or an aesthetic scoring rubric."
+    ],
+    "skill_implications": [
+      "Keep the skill interactive in its internal loop: generate, view, compare, repair and only then commit/apply expensive operations.",
+      "Separate base form, deformations and procedural surface detail so a novice can judge the primary shape without losing the ability to iterate.",
+      "Treat the final asset as a scene-ready handoff with explicit collections, modifiers, materials, UVs, normals, pivots and performance metadata."
+    ],
+    "source_refs": [
+      "M13"
+    ]
+  },
+  {
+    "id": "AN07",
+    "title": "Impulse Purchase Production File",
+    "url": "https://studio.blender.org/blog/impulse-purchase-production-file/",
+    "source_type": "official_blender_studio_open_project",
+    "published_or_updated": "2025-09-03; retrieved 2026-10-27",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Full article text read, including realtime/EEVEE target, fully procedural character/runway, bone-driven parameters, simulation nodes and camera behavior.",
+    "firsthand": true,
+    "findings": [
+      "The open-project setup keeps the project in one .blend, uses EEVEE viewport feedback, builds the character and runway procedurally with Geometry Nodes and updates the camera from character parameters.",
+      "Simple shapes, bones, color/proportion controls and Geometry Nodes create thousands of variants while maintaining a 30 fps viewport target; simulation nodes spawn bubbles/elements and position the camera.",
+      "The project intentionally uses a simple stylized design language and an interactive scaffold so the final result can be judged and recorded in one take."
+    ],
+    "limitations": [
+      "The article is about a stylized animation installation, not a general-purpose modeling recipe or topology benchmark.",
+      "Production files are available to Blender Studio subscribers; this record is based on the public technical description."
+    ],
+    "skill_implications": [
+      "For scenes and variant-heavy requests, preserve a single understandable scene scaffold with source assets, procedural controls, camera and material palette together.",
+      "Prefer fast viewport preview and camera-linked review before expensive final renders; let the user judge a small contact sheet of variants.",
+      "Use parameterized assemblies for repeated forms, but keep hero details explicit where procedural repetition would flatten the design hierarchy."
+    ],
+    "source_refs": [
+      "M14"
+    ]
+  },
+  {
+    "id": "AN08",
+    "title": "BlenderWorld: Benchmarking Visual Agents for 3D Creation from Real-World References",
+    "url": "https://arxiv.org/abs/2610.23986v1",
+    "source_type": "primary research paper / benchmark preprint",
+    "published_or_updated": "2026-10-14T12:46:54Z",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full",
+    "firsthand": true,
+    "version": "v1",
+    "arxiv_id": "2610.23986",
+    "history_url": "https://arxiv.org/abs/2610.23986",
+    "observed_metadata": {
+      "version_url": "https://arxiv.org/abs/2610.23986v1",
+      "history_entry": "[v1] Wed, 14 Oct 2026 12:46:54 UTC",
+      "checked_at": "2026-10-27",
+      "abstract_counts": {
+        "tasks": 223,
+        "frontier_models": 13
+      },
+      "post_cutoff_version_observed": false
+    },
+    "findings": "223 production briefs span text, image, video, and structured specifications. Agents act through Blender/Python/MCP tools and are evaluated with 2,651 binary rubrics, multi-view rendering, scene inspection, and holistic visual dimensions. Runtime accounting records turns, tokens, and tool calls; high-scoring agents still fail alternate-view coherence, contact/support, and specification fidelity.",
+    "limitations": "Preprint and benchmark-specific. This entry is pinned to arXiv v1 (submitted 2026-10-14T12:46:54Z); the canonical history URL https://arxiv.org/abs/2610.23986 was checked on 2026-10-27 and no later version was observed. A separate smaller curated showcase snapshot reports 181 submissions over 26 tasks and 7 models; its counts, scores, and human-agreement values are not merged with this v1 record. Scores are model/harness/task-distribution dependent and do not prove universal one-prompt quality.",
+    "skill_implications": "Treat a novice prompt as the start of an internal multi-turn run. Require hidden hard gates plus visual judging, alternate views, scene queries, and physical/support checks; count internal turns/tool calls for budget control.",
+    "source_refs": [
+      "A01"
+    ]
+  },
+  {
+    "id": "AN09",
+    "title": "BlenderGym: Benchmarking Foundational Model Systems for Graphics Editing",
+    "url": "https://arxiv.org/abs/2504.01786",
+    "source_type": "primary research paper / benchmark",
+    "published_or_updated": "2025-04-02",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full",
+    "firsthand": true,
+    "findings": "245 handcrafted start-goal pairs cover geometry, lighting, materials, blend shapes, and placement. The reference system is a generator/verifier tree with depth 3 and breadth 4; verifier scaling and higher verification share improve outcomes. Human baselines use 10 Blender users and an 8-minute limit.",
+    "limitations": "Mostly start-scene editing, not empty-scene novice generation. Photometric/CLIP/Chamfer metrics can miss physical plausibility and task-dependent scale effects.",
+    "skill_implications": "Use separate candidate generation and verification roles, cover all scene objects with input/evaluation views, allocate compute to verification, and add deterministic physical checks beside visual similarity.",
+    "source_refs": [
+      "A02"
+    ]
+  },
+  {
+    "id": "AN10",
+    "title": "BlenderAlchemy: Editing 3D Graphics with Vision-Language Models",
+    "url": "https://arxiv.org/abs/2404.17672",
+    "source_type": "primary research paper / ECCV 2024",
+    "published_or_updated": "2024-04-26",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full",
+    "firsthand": true,
+    "findings": "A visual edit generator proposes multiple tweak/leap program variants; a pairwise visual state evaluator and tournament select the best candidate. Visual imagination (text-to-image target expansion) improves grounding. With 32 generator calls, 8x4 or 4x8 depth/breadth is a useful balance.",
+    "limitations": "Edit-only demonstrations with a starter scene; sparse correct edits, Blender API hallucinations, rejection-sampling cost, no reusable domain skill library, and no proof of unattended end-to-end generation.",
+    "skill_implications": "Use small best-of-N candidate tournaments and visual target expansion for ambiguous style requests, but start from a complete scaffold/asset and protect the best state.",
+    "source_refs": [
+      "A03"
+    ]
+  },
+  {
+    "id": "AN11",
+    "title": "SceneCraft: An LLM Agent for Synthesizing 3D Scene as Blender Code",
+    "url": "https://arxiv.org/abs/2403.01248",
+    "source_type": "primary research paper / ICML 2024",
+    "published_or_updated": "2024-03-02",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full",
+    "firsthand": true,
+    "findings": "The pipeline decomposes text into sub-scenes/assets, builds a relational scene graph, turns relations into numerical constraints, runs Blender, and lets a multimodal reviewer revise unsatisfied constraints. An outer loop updates a reusable relation-function library without model fine-tuning; the paper reports 20 seed examples can bootstrap the library.",
+    "limitations": "Uses retrieved assets and synthetic constraint queries; evaluation is limited relative to open-domain natural-image reconstruction and depends on hand-designed relation vocabulary.",
+    "skill_implications": "Create a hidden scene graph/constraint plan before writing Blender code; encode support, proximity, alignment, symmetry, overlap, and depth relations as named checks.",
+    "source_refs": [
+      "A05"
+    ]
+  },
+  {
+    "id": "AN12",
+    "title": "Vision-as-Inverse-Graphics Agent via Interleaved Multimodal Reasoning (VIGA)",
+    "url": "https://arxiv.org/abs/2601.11109",
+    "source_type": "primary research paper / agent framework",
+    "published_or_updated": "2026-01-16 (v2 2026-01-22)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full",
+    "firsthand": true,
+    "findings": "VIGA alternates plan/code execution with active visual exploration and actionable feedback, preserving plans, code diffs, and render history in sliding-window memory. It separates read-only observation skills from persistent modification skills and uses an explicit end_process stop. BlenderGym gains average +35.32%; BlenderBench gains +124.70% over stated one-shot/memory-less baselines under the paper's settings.",
+    "limitations": "Gains are budgeted agentic comparisons, not single-call performance. BlenderBench has only a few dozen curated tasks, and verifier quality/tool precision remains a bottleneck.",
+    "skill_implications": "Expose semantic observation/modification macros, keep a compact state ledger, actively change viewpoints, and require explicit stop criteria rather than stopping after the first render.",
+    "source_refs": [
+      "A06"
+    ]
+  },
+  {
+    "id": "AN13",
+    "title": "Thinking in Blender: Staged Executable Inverse Graphics with Vision-Language Models (SEIG)",
+    "url": "https://arxiv.org/abs/2606.02580",
+    "source_type": "primary research paper / executable inverse graphics",
+    "published_or_updated": "2026-06-01",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full",
+    "firsthand": true,
+    "findings": "SEIG builds a coarse complete scaffold, then runs geometry, material, composition, and lighting stages with stage-specific generator/verifier contracts. Budgets are 5 geometry, 3 material, 3 composition, and 2 lighting rounds; verifiers return actionable checklists and only approve the active factor.",
+    "limitations": "Single-image inverse graphics is underconstrained; benchmark scenes and metric comparisons do not establish general novice-facing reliability. Stage budgets and Claude Opus 4.7 are protocol choices.",
+    "skill_implications": "Adopt stage-locked edits and checklists to absorb missing technical decomposition; protect geometry while styling and keep lighting last/conservative.",
+    "source_refs": [
+      "A09"
+    ]
+  },
+  {
+    "id": "AN14",
+    "title": "3DCodeBench: Benchmarking Agentic Procedural 3D Modeling Via Code",
+    "url": "https://arxiv.org/abs/2606.01057",
+    "source_type": "primary research paper / procedural-code benchmark",
+    "published_or_updated": "2026-05-31",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full",
+    "firsthand": true,
+    "findings": "212 categories and a 26K triplet corpus test text/image-to-Blender-5.0 procedural code. Metrics include executability, SigLIP-2/DINOv3 view similarity, Chamfer/Uni3D shape alignment, and 3DCodeArena human pairwise Elo. API mismatches dominate failures; successful renders still have floating/disconnected parts. Up to two traceback retries and 600–900 s coding-agent budgets are evaluated.",
+    "limitations": "Infinigen-derived object distribution and one Blender version constrain generalization; executable code is not equivalent to correct topology or physical plausibility. Best-level aggregation and single-shot tables must not be conflated.",
+    "skill_implications": "Make tracebacks deterministic, keep execution as a separate gate, test topology/support/shape, and select procedural code versus assets based on complexity. Include human-like aesthetic scoring in addition to pass rate.",
+    "source_refs": [
+      "A11"
+    ]
+  },
+  {
+    "id": "AN15",
+    "title": "Procedura: Agentic 3D Modeling with Procedural Control",
+    "url": "https://arxiv.org/abs/2608.26238",
+    "source_type": "primary research paper / procedural assembly agent",
+    "published_or_updated": "2026-08-26",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full",
+    "firsthand": true,
+    "findings": "Procedura plans a named assembly graph, writes parts incrementally, solves placements from typed mates, and commits only after compile/mate/connectivity checks. A decoupled vision critic gates one fix at a time; the same graph supports per-part materials and simulator-validated articulation.",
+    "limitations": "Focused on hard-surface/engineered assemblies and evaluated with P3D-Bench/MechBench; not evidence that mate graphs are best for organic or painterly assets. Static source audit only: the public repository was read at commit 2bbbbccb891a4c53a96de24750b7b366eebee574 on 2026-10-27; code was not executed.",
+    "skill_implications": "Route mechanical/product prompts to a part-graph path with deterministic placement and connectivity checks; keep an alternate organic/asset path.",
+    "source_refs": [
+      "A14"
+    ]
+  },
+  {
+    "id": "AN16",
+    "title": "Blender Lab blender_mcp repository README",
+    "url": "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/readme.md",
+    "source_type": "official Blender Lab repository README at inspected commit",
+    "published_or_updated": "inspected commit dbbf836ad4b1025f14a2b3b504c43903f39e0b04; 2026-09-29",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full README and repository tree",
+    "firsthand": true,
+    "findings": [
+      "The official implementation has two components: an external MCP server process and a Blender add-on. The data flow is MCP client ⇐ MCP/stdio ⇒ blender-mcp ⇐ local TCP socket ⇒ Blender add-on.",
+      "The add-on is required; its preferences configure host, port and optional auto-start. The client has a timeout, and interactive execution is deferred through Blender's main loop while background mode is synchronous.",
+      "The server auto-discovers tools from the repository and bundles Blender API/manual documentation, which supports an agent that queries API facts instead of guessing operator signatures.",
+      "The repository README documents a local TCP connection, not a hosted Blender service. Machine locality and the add-on process are part of the product contract."
+    ],
+    "limitations": [
+      "This is implementation documentation at one commit; package installers, clients and behavior can drift after the inspected commit.",
+      "The README does not demonstrate an end-to-end novice success rate, mesh quality threshold or human aesthetic acceptance rate.",
+      "The local transport is a control channel; it does not provide a general artifact validator or a policy for choosing the right modeling representation."
+    ],
+    "skill_implications": [
+      "The skill must detect and report add-on/server connectivity before attempting modeling, then classify transport, Blender and script failures separately.",
+      "Keep a client-side execution ledger with request IDs, timeouts and checkpoint paths; a long one-shot task must be resumable after a failed call.",
+      "Use the bundled API/manual lookup as a fallback when a code-generation attempt fails due to an operator or property mismatch."
+    ],
+    "source_refs": [
+      "C02"
+    ]
+  },
+  {
+    "id": "AN17",
+    "title": "Official Blender MCP prompt contract",
+    "url": "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/mcp/blmcp/data/prompts.yml",
+    "source_type": "official repository prompt and code-generation guidance",
+    "published_or_updated": "inspected commit dbbf836ad4b1025f14a2b3b504c43903f39e0b04; 2026-09-29",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full prompt file",
+    "firsthand": true,
+    "findings": [
+      "The initial instructions tell the model to inspect the scene first and avoid destructive object modification without confirmation.",
+      "The execute guidance recommends operators for standard actions and the data API for precision, with explicit verification of mode, active object and selection; it also calls for dependency-graph updates and bmesh handling in edit mode.",
+      "The prompt teaches the datablock hierarchy, shared-data caution, visibility, units, progressive inspection, non-destructive modifiers and transform/local-world reasoning.",
+      "The prompt asks for structured results, but the current server contract requires the top-level result to be a dictionary. The open issue about list-versus-dict wording makes this a real recovery rule."
+    ],
+    "limitations": [
+      "Prompt text is guidance and cannot enforce that a model actually inspects or validates the scene.",
+      "The prompt does not define an aesthetic rubric, a bounded refinement budget or a save/reopen/export acceptance test.",
+      "The phrase about confirmation is designed for an interactive operator; a novice one-shot skill needs an internal protected-state policy instead of repeatedly asking the user for technical confirmation."
+    ],
+    "skill_implications": [
+      "Embed a compact version of these invariants in the skill's hidden system prompt and expose them as machine-checkable gates.",
+      "Make every execute response a JSON object with status, diagnostics and bounded payload fields; never assume variables persist between calls.",
+      "Stage edits so destructive operations are preceded by a checkpoint and followed by a structural plus visual verification pass."
+    ],
+    "source_refs": [
+      "C04"
+    ]
+  },
+  {
+    "id": "AN18",
+    "title": "Official Blender MCP add-on execution and deferred control path",
+    "url": "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/addon/blender_mcp_addon/mcp_to_blender_server.py",
+    "source_type": "official Blender add-on source; companion execution modules",
+    "published_or_updated": "inspected commit dbbf836ad4b1025f14a2b3b504c43903f39e0b04; 2026-09-29",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full server source; companion timer/deferred modules inspected",
+    "firsthand": true,
+    "findings": [
+      "The add-on runs a non-blocking local TCP server and uses null-byte-delimited JSON. Interactive code is executed on Blender's calling/main thread through a timer-driven path; background mode uses a blocking poll path.",
+      "Each execute request receives a fresh namespace initialized with result = {}; bpy is not guaranteed to be pre-imported, and values from a prior request do not persist.",
+      "The request handler catches exceptions and returns structured error information, but it requires result to be a dictionary and imposes payload, client and send timeouts.",
+      "Deferred jobs hold a client connection while a checker reports completion; background mode cannot use the interactive deferred path. Partial-write handling exists because large screenshot responses previously hit nonblocking socket truncation.",
+      "The companion weak_sandbox is deliberately weak: it blocks selected Blender quit/factory/preferences operations but does not make arbitrary Python a filesystem, network or process sandbox."
+    ],
+    "limitations": [
+      "A fresh namespace prevents accidental state persistence but also means the agent must import bpy and pass state explicitly in every call.",
+      "Asynchronous render/deferred completion can outlive a user-facing request; a lost connection, timeout or Blender job state must be recovered explicitly.",
+      "The transport's byte limits and screenshot encoding can still make large observations expensive or incomplete; GUI screenshots also fail in background mode.",
+      "The official weak sandbox is not a security boundary for untrusted code."
+    ],
+    "skill_implications": [
+      "Generate small idempotent calls with explicit imports, return dictionaries and a request-local correlation ID; never depend on hidden Python state.",
+      "Poll Blender job status and validate output files after every deferred render. Restore temporary render settings only after the job has actually consumed them.",
+      "Apply a hard iteration/time budget, persist checkpoints and classify errors as transport, timeout, Python, Blender context or artifact validation failures.",
+      "Keep this connector restricted to a trusted local runtime unless an external security design is added."
+    ],
+    "related_urls": [
+      "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/addon/blender_mcp_addon/execute_interactive.py",
+      "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/addon/blender_mcp_addon/deferred_tool.py",
+      "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/addon/blender_mcp_addon/weak_sandbox.py"
+    ],
+    "source_refs": [
+      "C05"
+    ]
+  },
+  {
+    "id": "AN19",
+    "title": "Official Blender MCP tool registry and observation surfaces",
+    "url": "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/readme_tools.rst",
+    "source_type": "official repository tool documentation",
+    "published_or_updated": "inspected commit dbbf836ad4b1025f14a2b3b504c43903f39e0b04; 2026-09-29",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full tool listing plus implementation of key scene/screenshot/render tools",
+    "firsthand": true,
+    "findings": [
+      "The official registry separates execution, scene/object summaries, blendfile path/missing-file/library/usage summaries, API/manual search, GUI screenshots and render/viewport output.",
+      "Object summaries expose hierarchy, object type, parent/data names, selection, visibility, hide state, active object, mode, camera and workspace; object detail adds transforms, dimensions, children, modifiers, constraints, materials, data and collections.",
+      "Path and missing-file tools can report filepath, saved/dirty state, age, size, numbered backups and unresolved external references, which are stronger delivery checks than a render alone.",
+      "Window/area screenshots are GUI-only and return an error in background mode. Render thumbnail and viewport tools write into Blender's temporary MCP directory and use different interactive/background scheduling paths.",
+      "The inspected render thumbnail implementation caps the intended preview at 320 pixels and low samples, but its asynchronous interactive settings restoration is implicated in open issue #46/#66."
+    ],
+    "limitations": [
+      "A summary can be too large: issue #54 reports about 904 KB and roughly 15.5k–15.7k input tokens for 1,670 objects.",
+      "A scene summary does not prove evaluated geometry, watertightness, support, correct scale or export correctness without additional queries.",
+      "Temporary render paths are not automatically final deliverables; the skill must copy or save verified outputs to a stable task directory.",
+      "The preview cap is not a guarantee in current interactive builds while the open render-settings race remains unresolved."
+    ],
+    "skill_implications": [
+      "Use progressive inspection with root/query/limit filters and stable, compact schemas; never dump a whole large scene by default.",
+      "Treat `get_objects_summary` and object-detail data as authoritative scene evidence, then render a fixed multi-view contact sheet for aesthetic review.",
+      "After rendering, verify the actual path, file size, timestamp, scene identity and whether the render used the intended resolution/samples before showing it.",
+      "Separate GUI screenshot evidence from camera-render evidence and from datablock/depsgraph evidence in the internal report."
+    ],
+    "related_urls": [
+      "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/mcp/blmcp/tools/get_objects_summary_toolcode.py",
+      "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/mcp/blmcp/tools/get_object_detail_summary_toolcode.py",
+      "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/mcp/blmcp/tools/render_thumbnail_to_path_toolcode.py",
+      "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/mcp/blmcp/tools/get_screenshot_of_window_as_image_toolcode.py"
+    ],
+    "source_refs": [
+      "C06"
+    ]
+  },
+  {
+    "id": "AN20",
+    "title": "Official Blender MCP CLI synchronization and background verification",
+    "url": "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/mcp/blmcp/tools_helpers/blender_cli.py",
+    "source_type": "official repository helper source",
+    "published_or_updated": "inspected commit dbbf836ad4b1025f14a2b3b504c43903f39e0b04; 2026-09-29",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full helper source",
+    "firsthand": true,
+    "findings": [
+      "The helper runs Blender in background mode with a blend file and a Python expression, captures stdout/stderr and uses a 120 second subprocess timeout.",
+      "The wrapper executes code in a fresh namespace and requires a dictionary result, matching the live add-on contract.",
+      "When the live scene is dirty, the helper can save a numbered temporary copy using save_as_mainfile(copy=True), run the CLI inspection against that copy and remove it after the context exits.",
+      "The synced copy gives a way to inspect or validate the exact dirty live state without replacing the user's working file."
+    ],
+    "limitations": [
+      "The inspected source currently does not detach child stdin; open issues #58/#60 show Windows `_for_cli` calls can inherit MCP stdio and hang.",
+      "Background mode cannot use GUI screenshot tools and may evaluate context-sensitive operators differently from the interactive UI.",
+      "A temporary copy is useful for validation but must not be mistaken for the final saved file unless the final path and hash are checked."
+    ],
+    "skill_implications": [
+      "Run a background reopen smoke test before delivery: load the saved blend, inspect required objects/materials/camera and optionally render a deterministic thumbnail.",
+      "Use `stdin=DEVNULL` or an equivalent child-process boundary when implementing a CLI fallback on platforms where inherited stdio can deadlock.",
+      "Compare the live dirty state and the final reopened state; save only after the agent has reached an accepted checkpoint."
+    ],
+    "related_urls": [
+      "https://projects.blender.org/lab/blender_mcp/src/commit/dbbf836ad4b1025f14a2b3b504c43903f39e0b04/mcp/blmcp/tools_helpers/connection.py"
+    ],
+    "source_refs": [
+      "C07"
+    ]
+  },
+  {
+    "id": "AN21",
+    "title": "Official issue #31: large screenshot response truncation on macOS",
+    "url": "https://projects.blender.org/lab/blender_mcp/issues/31",
+    "source_type": "official repository issue and maintainer comments",
+    "published_or_updated": "opened 2026-08-18; fixed/closed 2026-08-25 (issue history retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full issue body and relevant comments; current source cross-check",
+    "firsthand": true,
+    "findings": [
+      "On macOS Retina, large screenshot responses could fail because nonblocking socket sendall raised BlockingIOError and the base64 payload was truncated; ordinary text tools continued to work.",
+      "The maintainer's fix queues partial writes and reserves protocol envelope space instead of assuming one nonblocking send completes the response.",
+      "This issue demonstrates that an image arriving in the conversation is a transport outcome, not proof that the entire screenshot or intended visual state was transmitted."
+    ],
+    "limitations": [
+      "The issue was marked fixed, so the exact bug may not reproduce at the inspected commit; future payload sizes, clients or platforms can expose similar transport failures.",
+      "The fix addresses socket delivery, not image content correctness, stale viewport state or hidden geometry."
+    ],
+    "skill_implications": [
+      "Attach a byte length, checksum or image decode check to every visual observation; reject an image that cannot be decoded or whose response is incomplete.",
+      "Prefer capped contact sheets and targeted renders over repeatedly sending full-resolution window screenshots.",
+      "If visual evidence is missing, fall back to structured scene state and retry with a smaller image before editing geometry."
+    ],
+    "source_refs": [
+      "C08"
+    ]
+  },
+  {
+    "id": "AN22",
+    "title": "Official issues #46 and #66: interactive thumbnail render-settings race",
+    "url": "https://projects.blender.org/lab/blender_mcp/issues/46",
+    "source_type": "official repository issue pair and proposed fix",
+    "published_or_updated": "#46 opened 2026-08-31; #66 opened 2026-10-22; retrieved 2026-10-27",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full issue body/comments for #46; #66 body and proposed patch summary",
+    "firsthand": true,
+    "findings": [
+      "Interactive `render_thumbnail_to_path` can invoke an asynchronous render while a context manager immediately restores resolution, samples and simplify settings. The render may therefore produce the full scene resolution instead of the intended 320-pixel preview.",
+      "The observed failure is correctness-relevant: the tool returns a file, but the file does not satisfy the advertised thumbnail contract.",
+      "Issue #66 proposes assigning settings directly and restoring them from the deferred completion checker; it reports tests on Windows 11 with Cycles and EEVEE, but it remains an upstream implementation issue at the research snapshot."
+    ],
+    "limitations": [
+      "The defect is specific to an implementation path and may be fixed in a later release; the skill cannot assume the fix without checking the installed source/version.",
+      "The issue does not evaluate the visual quality of a model; it only proves that tool settings and asynchronous execution can disagree.",
+      "Background blocking renders do not have the same timing behavior, so platform and mode matter."
+    ],
+    "skill_implications": [
+      "After every deferred render, inspect output dimensions and render metadata; do not trust the tool name or request parameters.",
+      "Restore temporary render settings only inside completion-aware cleanup, or use a blocking render for acceptance-critical checks.",
+      "Use a separate low-resolution preview and a final stable render path so a race cannot silently choose the wrong evidence."
+    ],
+    "related_urls": [
+      "https://projects.blender.org/lab/blender_mcp/issues/66"
+    ],
+    "source_refs": [
+      "C09"
+    ]
+  },
+  {
+    "id": "AN23",
+    "title": "Official issues #54 and #55: observation context growth and fresh execute namespace",
+    "url": "https://projects.blender.org/lab/blender_mcp/issues/54",
+    "source_type": "official repository issues and maintainer discussion",
+    "published_or_updated": "#54 opened 2026-09-16; #55 opened 2026-09-16; retrieved 2026-10-27",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full issue bodies and selected comments; current source cross-check",
+    "firsthand": true,
+    "findings": [
+      "A 1,670-object scene produced roughly 904 KB from `get_objects_summary` and added about 15.5k–15.7k input tokens; the issue requests query/root/limit controls and compact output.",
+      "The execute tool's current behavior is a fresh namespace per request: `bpy` may need an explicit import and a variable created by one request will not exist in the next. The issue documents this as an ambiguity for users who expected state persistence.",
+      "The two issues jointly show that a one-shot agent needs a state protocol: compact progressive reads plus explicit state handoff, rather than whole-scene dumps or implicit Python memory."
+    ],
+    "limitations": [
+      "Token and response sizes depend on object names, materials, modifiers, client serialization and model tokenizer; the exact numbers are a reproduction report, not a universal limit.",
+      "A compact summary can omit a hidden failure; targeted follow-up queries remain necessary.",
+      "The issue reports user expectation and implementation behavior at one version, so the skill should feature-detect the installed connector."
+    ],
+    "skill_implications": [
+      "Begin with a bounded scene fingerprint, then query only relevant collections/objects and evaluate hidden geometry on demand.",
+      "Pass data through explicit JSON results or saved checkpoint metadata; never rely on module globals or previous execute calls.",
+      "Use a token budget for observation as well as code, and stop requesting unchanged state once a gate has passed."
+    ],
+    "related_urls": [
+      "https://projects.blender.org/lab/blender_mcp/issues/55"
+    ],
+    "source_refs": [
+      "C10"
+    ]
+  },
+  {
+    "id": "AN24",
+    "title": "Official issues #58, #60 and #48: Windows CLI stdin inheritance timeout",
+    "url": "https://projects.blender.org/lab/blender_mcp/issues/58",
+    "source_type": "official repository issue/reproduction and proposed patch",
+    "published_or_updated": "#58 opened 2026-09-28; #60 opened 2026-10-06; #48 proposed patch; retrieved 2026-10-27",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "full issue bodies and reproduction details; helper source cross-check",
+    "firsthand": true,
+    "findings": [
+      "On Windows 11 with Blender 5.2.2, `_for_cli` tools can time out because the child Blender process inherits the MCP server's stdio and waits on stdin; adding `stdin=subprocess.DEVNULL` resolves the reported deadlock.",
+      "The failure is platform-specific process-boundary behavior rather than a modeling error, and it can appear only at the final background verification stage.",
+      "The issue demonstrates why recovery must distinguish a hung child process from a malformed blend or a failed Python script."
+    ],
+    "limitations": [
+      "The reproduction is Windows-focused; macOS and Linux can have different process and stdio behavior.",
+      "A patched child-process launch is a local implementation decision and does not remove the need for a hard timeout and process cleanup.",
+      "The issue does not prove that all CLI tools are affected in all releases."
+    ],
+    "skill_implications": [
+      "Use platform-aware launch settings, detach child stdin, set a bounded timeout and capture stdout/stderr for a recovery message.",
+      "If the reopen check times out, preserve the saved file and checkpoint, retry once with a minimal probe, then report verification as incomplete rather than declaring success.",
+      "Keep interactive and background verification as separate capabilities in the adapter."
+    ],
+    "related_urls": [
+      "https://projects.blender.org/lab/blender_mcp/issues/60",
+      "https://projects.blender.org/lab/blender_mcp/issues/48"
+    ],
+    "source_refs": [
+      "C11"
+    ]
+  },
+  {
+    "id": "AN25",
+    "title": "Blender Python API documentation: timers, context, operators, dependency graph, render and save",
+    "url": "https://docs.blender.org/api/current/bpy.app.timers.html",
+    "source_type": "official Blender Python API documentation bundle",
+    "published_or_updated": "current API pages retrieved 2026-10-27",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "official API search excerpts and relevant reference pages",
+    "firsthand": true,
+    "findings": [
+      "`bpy.app.timers.register` callbacks run from Blender's timer/main-loop mechanism and return None to unregister or a number to schedule the next call; the API guidance says data changes should not be made from arbitrary threads.",
+      "Operators depend on context and can be checked with `poll()`. `Context.temp_override` can provide a consistent window/screen/area/region and restores the previous context afterward.",
+      "`evaluated_depsgraph_get` and `Object.evaluated_get` expose evaluated animation/driver/modifier state; evaluated geometry must be converted or cleared carefully when inspecting meshes.",
+      "Mesh construction should validate/update data; object bounds and matrices distinguish object-space from world-space dimensions.",
+      "Render and save operators expose explicit write/save-copy parameters, which support deterministic acceptance renders and non-destructive checkpoints."
+    ],
+    "limitations": [
+      "Reference documentation describes API contracts but does not guarantee that an LLM will select a valid context or clean temporary evaluated data.",
+      "The current pages can be difficult to access directly through automated web fetches; claims were taken from the official docs/search content, not community tutorials.",
+      "Context-sensitive operators remain dependent on the active UI state, add-on mode and Blender version."
+    ],
+    "skill_implications": [
+      "Queue all bpy mutations onto Blender's main thread; use timers as the bridge from a socket/client thread.",
+      "Check `poll()`, use a narrow `temp_override`, and capture/restore selection, mode, active object and view context around operator calls.",
+      "Use evaluated dependency-graph data for geometry checks, then clear temporary meshes and never treat an unevaluated bounding box as final evidence.",
+      "Validate meshes, save a numbered checkpoint, reopen it in background mode and render a deterministic acceptance view."
+    ],
+    "related_urls": [
+      "https://docs.blender.org/api/current/bpy.ops.html",
+      "https://docs.blender.org/api/current/bpy.types.Context.html",
+      "https://docs.blender.org/api/current/bpy.types.Depsgraph.html",
+      "https://docs.blender.org/api/current/bpy.types.Mesh.html",
+      "https://docs.blender.org/api/current/bpy.ops.render.html",
+      "https://docs.blender.org/api/current/bpy.ops.wm.html",
+      "https://docs.blender.org/api/current/bpy.types.Object.html"
+    ],
+    "source_refs": [
+      "C12"
+    ]
+  },
+  {
+    "id": "AN26",
+    "title": "Claude Opus 5.5 on 3D modeling — professional workflow, custom tools, multi-agent orchestration",
+    "url": "https://www.reddit.com/r/ClaudeAI/comments/1xblwzf/claude_opus_55_on_3d_modeling/",
+    "source_type": "reddit_post_plus_author_comments",
+    "published_or_updated": "2026-10-24 (Reddit displays 3d ago; retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "OP plus author replies and relevant comments through line 231",
+    "firsthand": true,
+    "findings": {
+      "op": "An experienced 3D modeler (working since the early 2000s) says a generic prompt such as make a human character is insufficient. Their result came from measurements, reference images, moodboards, iteration, project rules, and asking Claude to build purpose-specific tools first.",
+      "attempt": "The OP used four Max-tier subscriptions continuously for about two weeks while making tools and scenes. They set an orchestrator to direct 5-7 sub-agents for modeling, lighting, grading and related tasks, and used SAM3/DINOv3 to improve visual input.",
+      "workaround": "The OP enforces no guessing, research before building, compare every result to moodboards/reference images, explain why each object exists, and record mistakes. They add a rule to avoid perfectly cut edges. They use loops to keep the orchestrator working past message caps.",
+      "unresolved": "They still make manual changes. They report animation as robotic and weak on timing/anatomy, and no public tool suite or reproducible prompt package was available in the thread at retrieval.",
+      "human_dependency": "The author supplies professional judgment about measurements, references, tool design, aesthetic rules and when a result is acceptable; the author also diagnoses the recurring failure mode and creates a compensating tool.",
+      "ai_absorb": "A skill should encode a project contract, reference/moodboard comparison, explicit measurement plan, mistake ledger, subtask roles, and a tool-building phase before model construction. It should treat visual feedback and metrics as first-class state rather than rely on a single prompt."
+    },
+    "limitations": [
+      "The result is a self-report with images; no .blend, scripts, benchmark task set, or independent topology audit was supplied.",
+      "The four-account/two-week figure is a single practitioner's self-report, not a required cost, duration, or subscription profile for the novice skill; the skill should prepackage the tools instead."
+    ],
+    "skill_implications": [
+      "Preload reusable Blender operations and validators so the novice does not need to discover APIs.",
+      "Run an internal plan/measure/build/inspect/refine loop before presenting the model.",
+      "Keep the user in a narrow aesthetic-judge role by asking for only high-value visual choices."
+    ],
+    "source_refs": [
+      "P01"
+    ]
+  },
+  {
+    "id": "AN27",
+    "title": "Struggling with Claude Code + BlenderMCP for complex tasks (modeling, rigging, animation)",
+    "url": "https://www.reddit.com/r/ClaudeAI/comments/1ritdv6/struggling_with_claude_code_blendermcp_for/",
+    "source_type": "reddit_help_thread_plus_comments",
+    "published_or_updated": "2026-02 (Reddit displays 8mo ago; retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "OP plus reply chain on consistency",
+    "firsthand": true,
+    "findings": {
+      "op": "The OP asks for workflow advice because BlenderMCP struggles with consistency across modeling, rigging and animation; the key issue is 3D geometry consistency rather than only Blender IDE control.",
+      "attempt": "A commenter reports that even step-by-step instructions and self-documentation do not reproduce the same geometry reliably. One run places geometry correctly and the next does not.",
+      "workaround": "The commenter eventually used very specific operations with precise x/y/z coordinates to obtain repeatability.",
+      "unresolved": "No general solution for spatial consistency, rigging or animation quality was established in the thread.",
+      "human_dependency": "An expert must translate visual intent into exact coordinate and operation constraints when reproducibility matters.",
+      "ai_absorb": "The skill should compile ambiguous spatial language into explicit coordinate frames, dimensions, anchors and invariant checks before executing Blender operations. It should log exact transforms so retries are deterministic."
+    },
+    "limitations": [
+      "The thread is short and does not include a reproducible scene or scripts.",
+      "The commenter’s experience is not an independent benchmark across models or versions."
+    ],
+    "skill_implications": [
+      "Use coordinate contracts and named anchors for all multi-object tasks.",
+      "Never rely on self-documentation alone as proof of repeatability; rerun a fixture."
+    ],
+    "source_refs": [
+      "P04"
+    ]
+  },
+  {
+    "id": "AN28",
+    "title": "Blender MCP — Claude Code versus Claude Desktop; scripts beat MCP for deep loops",
+    "url": "https://www.reddit.com/r/ClaudeCode/comments/1rhsid4/blender_mcp_will_claude_code_do_a_better_job_than/",
+    "source_type": "reddit_comparison_thread_plus_experienced_comment",
+    "published_or_updated": "2026-02 (Reddit displays 8mo ago; retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "OP plus detailed comparison comment",
+    "firsthand": true,
+    "findings": {
+      "op": "The OP asks whether Claude Code is more reliable than Claude Desktop for Blender MCP tool calls, structured JSON, context control and multi-step work.",
+      "attempt": "An experienced commenter says Claude Code handled multi-step tool sequences, retries and errors better than Desktop, but MCP round trips became the bottleneck for iterative generation and self-evaluation.",
+      "workaround": "The commenter skipped MCP and had the LLM write Blender Python scripts directly, allowing tighter loops, timeout control and selective reruns. They built a multi-agent pipeline that plans phases, writes geometry, evaluates renders, applies materials and iterates.",
+      "unresolved": "The comparison is anecdotal and tied to an external project; no shared benchmark scene or measurements were published.",
+      "human_dependency": "The reported practitioner chooses whether to accept MCP latency or adopt a script-based pipeline and defines phases/stopping rules; the target skill should make that route and phase choice internally from task complexity.",
+      "ai_absorb": "The skill should choose between direct scripting and MCP based on task complexity, batch operations and visual feedback needs. For deep loops, emit idempotent scripts and cache reusable phases."
+    },
+    "limitations": [
+      "The commenter has a product disclosure link, so the account may be promotional even though the failure analysis is concrete.",
+      "No independent reproduction of the claimed reliability difference."
+    ],
+    "skill_implications": [
+      "Use MCP for inspection/feedback and scripts for large deterministic builds when appropriate.",
+      "Make retries and partial reruns explicit to control cost and latency."
+    ],
+    "source_refs": [
+      "P08"
+    ]
+  },
+  {
+    "id": "AN29",
+    "title": "Might have cracked Blender MCP for Claude — gap audit, faceted diagnostics and calculated views",
+    "url": "https://www.reddit.com/r/ClaudeAI/comments/1vuccmd/might_have_cracked_blender_mcp_for_claude/",
+    "source_type": "reddit_workaround_post_plus_author_comment",
+    "published_or_updated": "2026-08 (Reddit displays 2mo ago; retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "OP plus author reply explaining color/audit method and several critical comments",
+    "firsthand": true,
+    "findings": {
+      "op": "The author was dissatisfied because Claude passed meshes despite imperfections and could not reason from subjective visual judgment. They wrote audit scripts for mesh aspects and focused on gap checks for merged parts.",
+      "attempt": "The workflow assigns contrasting colors to neighboring faces, triangulates surface details, detects gaps/lifts/joint/clipping anomalies, then captures the defect from multiple calculated angles and distances.",
+      "workaround": "The author tells Claude to use mathematical and visual points from those captures to calculate deviation and adjust joins. They claim the method helps Claude sculpt and understand shape better.",
+      "unresolved": "The actual scripts, thresholds, capture protocol and mesh are not published. Several commenters report realistic people and complex organic forms remain poor; one says specific instructions are still needed.",
+      "human_dependency": "The author designed the diagnostic representation and chooses which audits matter; visual correctness is converted into measurable defects by expert-authored tooling.",
+      "ai_absorb": "A skill should generate diagnostic views (multi-angle, wireframe, face-color/gap overlays), run mesh audits, map findings to localized edits, and require a before/after comparison. This is a promising route for a novice judge because it turns subjective defects into inspectable evidence."
+    },
+    "limitations": [
+      "The method is self-reported and lacks code or independent validation.",
+      "Face-color overlays detect topology/geometry conditions, not aesthetic quality by themselves."
+    ],
+    "skill_implications": [
+      "Build a visual QA layer into the skill rather than asking the model to self-approve a beauty render.",
+      "Localize defects before editing to avoid destructive whole-scene rewrites."
+    ],
+    "source_refs": [
+      "P09"
+    ]
+  },
+  {
+    "id": "AN30",
+    "title": "What video/3D MCPs are you using with Claude? — scene-state knowledge files",
+    "url": "https://www.reddit.com/r/ClaudeAI/comments/1xdb75z/what_video3d_mcps_are_you_using_with_claude/",
+    "source_type": "reddit_workflow_thread_plus_comment",
+    "published_or_updated": "2026-10-27 (Reddit displays 5h ago; retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "OP plus comment proposing scene_state.md",
+    "firsthand": true,
+    "findings": {
+      "op": "A user chaining Claude shot lists, Blender/Morphic blockouts and video generation loses camera height, character positions and framing between handoffs.",
+      "attempt": "Each MCP works alone, but state drifts when tools are chained. The user asks how practitioners prevent memory loss.",
+      "workaround": "A commenter keeps a knowledge file named scene_state.md with camera positions, object names and constraints and references it at the start of each step. They report roughly 70% fewer camera mistakes.",
+      "unresolved": "The claim is approximate and has no file or measurement; it does not solve all drift or establish consistency across clients.",
+      "human_dependency": "The human must define the canonical state fields and correct drift when the file is stale.",
+      "ai_absorb": "The skill should maintain a machine-readable scene manifest (camera, coordinate frame, object IDs, materials, constraints, current revision), refresh it after every mutation and use it as an invariant check before the next step."
+    },
+    "limitations": [
+      "Single anecdotal report; no baseline or test protocol.",
+      "A markdown state file can become stale unless the tool writes it from actual Blender state."
+    ],
+    "skill_implications": [
+      "Treat scene state as durable data, not chat memory.",
+      "Compare actual scene info against the manifest before edits and after renders."
+    ],
+    "source_refs": [
+      "P10"
+    ]
+  },
+  {
+    "id": "AN31",
+    "title": "Testing the Blender Connector for Claude — self-critique can falsely pass bad geometry",
+    "url": "https://www.reddit.com/r/ClaudeAI/comments/1t1xn4q/testing_the_blender_connector_for_claude/",
+    "source_type": "reddit_showcase_plus_conflicting_comments",
+    "published_or_updated": "2026-04 (Reddit displays 6mo ago; retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "OP plus opposing comments about visual verification",
+    "firsthand": true,
+    "findings": {
+      "op": "A self-described poor 3D modeler tested the Blender Connector by asking Claude to recreate a sci-fi shuttle from artwork and was pleased with the result.",
+      "attempt": "A commenter says they ask Claude to compare its output with the source and self-correct. Another commenter reports the opposite: Claude screenshots terrible work and declares it nailed the result.",
+      "workaround": "The opposing comment explains that deterministic math and interface control do not equal visual understanding; a separate, stronger visual evaluator or human comparison is needed.",
+      "unresolved": "The thread does not establish a reliable self-evaluation method or a shared quality threshold.",
+      "human_dependency": "A human judge remains necessary when the model can confidently misread its own render.",
+      "ai_absorb": "The skill should use reference overlays, multi-view comparisons and independent validators, and should avoid letting the same model both generate and approve without an external check."
+    },
+    "limitations": [
+      "No source image/model pair or reproducible setup was attached in the text.",
+      "Commenter experiences conflict, which is itself evidence of unstable visual QA."
+    ],
+    "skill_implications": [
+      "Separate generator, critic and acceptance roles.",
+      "Present the user with compact before/after comparison views in the final delivery for aesthetic judgment; do not require an intermediate acceptance response."
+    ],
+    "source_refs": [
+      "P15"
+    ]
+  },
+  {
+    "id": "AN32",
+    "title": "Simon Willison — public Codex/Blender headless experiment with scripts, .blend files, transcript and reusable skill",
+    "url": "https://github.com/simonw/gpt-6-astra-blender-pelican-bicycle",
+    "source_type": "first_party_blog_and_archived_github_artifact",
+    "published_or_updated": "2026-09-05 (repository archived same day; retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Repository README, Python scripts, outputs metadata and linked first-party write-up",
+    "firsthand": true,
+    "findings": {
+      "op": "Simon Willison documents GPT-6 Astra in Codex driving a local macOS Blender install directly through its Python API, without MCP. The public archive contains the Python scripts, editable .blend files, PNG renders, full transcript and a generated Blender Local skill.",
+      "attempt": "The agent ran Blender in background mode with --python, wrote a pelican-on-bicycle scene, rendered it, viewed the image and iterated through three natural-language prompts. The scripts show explicit primitives/mesh coordinates, materials, camera, lighting and render settings; the scene is editable rather than a flat image.",
+      "workaround": "When Blender's GUI/background launch was unreliable, the workflow used the installed binary in headless mode and a local skill with a fixed invocation. The archive makes later runs reproducible without rediscovering commands.",
+      "unresolved": "This is one carefully documented experiment, not a benchmark or proof of arbitrary one-shot quality. The scene is stylized and authored through detailed Python; the transcript shows human-directed revisions after each rendered candidate, with no independent aesthetic oracle, acceptance metric or novice one-prompt flow.",
+      "human_dependency": "The source operator chooses the concept image/brief, asks for successive aesthetic revisions and effectively judges which direction to pursue. For the target persona, the skill should internalize reference comparison and render selection, then return the completed artifact; the agent handles code, Blender invocation and revisions, but the scripts encode substantial scene-specific design decisions.",
+      "ai_absorb": "The skill should package a local/headless Blender adapter, a stable scene-script template, render-readback loop, editable artifact output and a reusable invocation guide. It should preserve scripts and transcripts as an audit trail."
+    },
+    "limitations": [
+      "The repository is archived and tied to one macOS/Blender/model setup; version drift is likely.",
+      "Do not infer that three prompts were literally one tool call: each prompt triggers a substantial code/render iteration."
+    ],
+    "skill_implications": [
+      "Prefer reproducible local scripts and artifacts over opaque computer-use gestures when the task is complex.",
+      "Deliver .blend plus source script and render evidence so the user can judge the result and rerun it.",
+      "Treat this as a human-assisted iterative reference; add an internal critic and explicit evidence before making an autonomous aesthetic-acceptance claim."
+    ],
+    "source_refs": [
+      "P20"
+    ]
+  },
+  {
+    "id": "AN33",
+    "title": "mcp-for-blender issue #339 — port conflict and five-minute tool-call stalls",
+    "url": "https://github.com/ahujasid/mcp-for-blender/issues/339",
+    "source_type": "first_party_github_issue_and_maintainer_comments",
+    "published_or_updated": "2026-09-15 (issue activity; retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "Issue report, maintainer diagnostic commands and multiple environment-specific comments",
+    "firsthand": true,
+    "findings": {
+      "op": "One user reports a port conflict because both the community MCP and official Blender MCP were running on port 9876; uninstalling the official add-on fixed that user's connection. Another Windows 11/Blender 5.2.1/Claude Desktop report shows every tool call arriving after almost exactly five minutes, even on an empty scene.",
+      "attempt": "The issue includes socket fingerprinting, get_addon_info, add-on module enumeration, clean reinstall, single-PID port checks, telemetry blocking, fresh scenes and log timing. The latter report ruled out several obvious causes without resolving the delay.",
+      "workaround": "Run exactly one MCP/add-on pair, inspect which add-on is loaded, and fingerprint the socket before modeling. The port-conflict fix is confirmed for one commenter but not the original author case.",
+      "unresolved": "The five-minute stall remained unresolved in the visible issue record; the maintainer explicitly distinguishes one user's port conflict from the original report.",
+      "human_dependency": "A novice cannot be expected to inspect sockets, module paths or client logs. The skill must surface these diagnostics and prevent duplicate server instances automatically.",
+      "ai_absorb": "Add a bridge-health command that checks process ownership, port uniqueness, add-on identity, handshake latency and a harmless tool call. Classify timeout versus geometry failure and store diagnostics in the run receipt."
+    },
+    "limitations": [
+      "GitHub issue reports are environment-specific and may be affected by versions since changed.",
+      "A workaround confirmed by one commenter is not a universal fix."
+    ],
+    "skill_implications": [
+      "Treat tool availability and latency as measured preconditions.",
+      "Do not let a generic retry loop burn the user's context or token budget."
+    ],
+    "source_refs": [
+      "P22"
+    ]
+  },
+  {
+    "id": "AN34",
+    "title": "BlenderWorld: Benchmarking Visual Agents for 3D Creation from Real-World References",
+    "url": "https://arxiv.org/abs/2610.23986",
+    "related_project_url": "https://blenderworld.github.io/",
+    "source_type": "primary research paper / benchmark preprint",
+    "published_or_updated": "2026-10-14",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "abstract plus HTML sections on task definition, automatic rendering, rubric/dimension judging, metrics, and human agreement",
+    "firsthand": true,
+    "findings": [
+      "Evaluates 223 realistic Blender tasks with 2,651 task-specific binary rubrics and holistic visual ratings.",
+      "Uses an independent automatic-rendering agent to choose eight complementary views; the evaluator must preserve submitted geometry/materials/lighting and may retry invalid views only twice.",
+      "Separates scene-structure/native-file criteria from render criteria, then adds eight soft dimensions: fidelity, physical plausibility, style/color, realism, layout, proportion/scale, lighting/materials, and completeness.",
+      "Uses weighted binary satisfaction and dimension scores, fused 50/50; unsupported rubric claims receive zero.",
+      "In the separate BlenderWorld showcase snapshot (181 curated submissions across 26 tasks and 7 models), 147 eligible pairwise cases were judged by three humans; the strongest judge had 82.99% agreement (122/147), falling to 68.57% on small score gaps, and dimension scores outperformed binary rubric scores for alignment. This is not a pass rate for the full 223-task benchmark."
+    ],
+    "limitations": [
+      "2026 preprint and not a novice one-shot pass-rate study; results concern 223 curated production briefs and 13 frontier models.",
+      "The 82.99%/122-of-147 statistic comes from the separate showcase snapshot, not all 223 benchmark tasks; the human comparison set is small relative to the full task set.",
+      "The fused weight and 1-10 thresholds are benchmark choices, not universal aesthetic truth."
+    ],
+    "skill_implications": [
+      "Adopt a dual-track QA: deterministic structural checks plus independent multi-view visual judging.",
+      "Render a fixed/adaptive contact sheet without overlays or repair by the evaluator.",
+      "Treat small score gaps as uncertain; do not claim a visual pass from a single judge score.",
+      "Keep the user as an aesthetic reviewer only; hide topology diagnostics behind a machine-generated status."
+    ],
+    "source_refs": [
+      "Q01"
+    ]
+  },
+  {
+    "id": "AN35",
+    "title": "SceneAssistant: A Visual Feedback Agent for Open-Vocabulary 3D Scene Generation",
+    "url": "https://arxiv.org/abs/2603.12238",
+    "source_type": "primary research paper / agent framework",
+    "published_or_updated": "2026-03-12",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "abstract plus HTML sections on action APIs, visual feedback loop, collision-check ablation, labels, and maximum steps",
+    "firsthand": true,
+    "findings": [
+      "The VLM receives a render after each action batch and uses a complete action API for create, transform, view control, and finish.",
+      "Visual prompts label objects and expose axes, making object-specific edits more reliable than raw JSON manipulation.",
+      "Ablations show that removing visual prompts causes disorganized layouts and removing collision checks leaves physical interpenetrations unresolved.",
+      "The framework sets a maximum number of work steps to prevent endless refinement and can prune low-quality generated assets using visual feedback."
+    ],
+    "limitations": [
+      "Focuses on scenes and layout, not a full topology/UV/export audit.",
+      "Uses human evaluations to establish superiority, but does not establish universal pass thresholds for one-shot modeling.",
+      "The paper's visual feedback is still dependent on the VLM's perception and can miss hidden geometry."
+    ],
+    "skill_implications": [
+      "After each meaningful build batch, render; then inspect before issuing more edits.",
+      "Expose collision/support diagnostics to the agent, while keeping the final user-facing output aesthetic.",
+      "Set an iteration/time budget and finish explicitly instead of allowing autonomous loops to run indefinitely."
+    ],
+    "source_refs": [
+      "Q03"
+    ]
+  },
+  {
+    "id": "AN36",
+    "title": "T3Bench: Benchmarking Current Progress in Text-to-3D Generation",
+    "url": "https://arxiv.org/abs/2310.02977",
+    "source_type": "primary research paper / text-to-3D benchmark",
+    "published_or_updated": "2024-04-17 (v2; submitted 2023-10-04)",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "abstract plus HTML introduction and metric description",
+    "firsthand": true,
+    "findings": [
+      "Uses prompt suites of increasing complexity: single object, object with surroundings, and multiple objects.",
+      "Renders multiple views and combines text-image scores with regional convolution to detect view inconsistency; a separate multi-view captioning plus GPT-4 alignment metric tests prompt fidelity.",
+      "The authors report Spearman correlation above 0.75 with different human-judgment dimensions.",
+      "The paper explicitly warns that single-view CLIP-style evaluation misses overall 3D quality and view consistency."
+    ],
+    "limitations": [
+      "Designed for neural text-to-3D and not directly for editable Blender topology.",
+      "Metric correlation is benchmark-specific and does not guarantee reliable decisions on hard-surface topology or rigging.",
+      "GPT-4 caption/judge components add model and prompt bias."
+    ],
+    "skill_implications": [
+      "Always use multi-view evidence; a hero camera is insufficient.",
+      "Use separate semantic alignment and visual-quality channels.",
+      "Include multi-object and surroundings prompts in regression tests because complexity exposes failure modes."
+    ],
+    "source_refs": [
+      "Q05"
+    ]
+  },
+  {
+    "id": "AN37",
+    "title": "MLLM-as-a-Judge: Assessing Multimodal LLM-as-a-Judge with Vision-Language Benchmark",
+    "url": "https://proceedings.mlr.press/v235/chen24h.html",
+    "source_type": "primary peer-reviewed paper / multimodal judge benchmark",
+    "published_or_updated": "2024-07-21 to 2024-07-27 (ICML 2024)",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "PMLR abstract/project page and reported metric table",
+    "firsthand": true,
+    "findings": [
+      "Evaluates multimodal judges in scoring, pair comparison, and batch ranking rather than assuming one judging format transfers to another.",
+      "Finds stronger human alignment in pair comparison than in scalar scoring or batch ranking, with biases, hallucinations, and inconsistent judgments even for GPT-4V.",
+      "The study reports that supplying a detailed image description can improve some judging settings, but additional chain-of-thought steps can reduce alignment on some datasets."
+    ],
+    "limitations": [
+      "The benchmark is general vision-language evaluation, not 3D-specific.",
+      "Results depend on 2024-era models and datasets; current model behavior can drift.",
+      "A description supplied by another model can create a second source of hallucination."
+    ],
+    "skill_implications": [
+      "Prefer evidence-per-criterion and pairwise checks over one scalar beauty score.",
+      "Do not assume chain-of-thought or longer judge prompts improve correctness.",
+      "If an image summary is used, compare it against the pixels/geometry report and mark unsupported claims as failures."
+    ],
+    "source_refs": [
+      "Q06"
+    ]
+  },
+  {
+    "id": "AN38",
+    "title": "Fooling the LVLM Judges: Visual Biases in LVLM-Based Evaluation",
+    "url": "https://aclanthology.org/2025.emnlp-main.1182/",
+    "source_type": "primary peer-reviewed paper / adversarial judge benchmark",
+    "published_or_updated": "2025-11-04 to 2025-11-09 (EMNLP 2025)",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "ACL abstract/full-text excerpts on bias types, FRAME, and mitigation findings",
+    "firsthand": true,
+    "findings": [
+      "Creates FRAME, a controlled multi-domain benchmark with known quality levels and visual perturbations such as instruction overlays, brightness/gamma changes, padding, beauty filters, and bounding boxes.",
+      "Reports that all tested LVLM judges can be systematically inflated by visual manipulations; pairwise judgments are also vulnerable.",
+      "Prompt-based mitigation, including bias-aware wording and chain-of-thought, does not reliably remove the vulnerability."
+    ],
+    "limitations": [
+      "The paper targets 2D text-image alignment rather than 3D renders; it does not measure agreement with human aesthetic preference directly.",
+      "Its manipulations are not a complete threat model for Blender contact sheets.",
+      "A 3D judge could have different failure modes for lighting, perspective, and hidden surfaces."
+    ],
+    "skill_implications": [
+      "Keep evaluator renders clean: no prompt text, object labels, score hints, watermarks, or beautifying overlays.",
+      "Run a blind prompt-free description pass and a separate criteria pass; never let the image contain the rubric.",
+      "Add perturbation checks (camera/background/lighting swaps) to detect judge score hacking."
+    ],
+    "source_refs": [
+      "Q07"
+    ]
+  },
+  {
+    "id": "AN39",
+    "title": "Judging the Judges: A Systematic Study of Position Bias in LLM-as-a-Judge",
+    "url": "https://arxiv.org/abs/2406.07791",
+    "source_type": "primary research paper / judge reliability study",
+    "published_or_updated": "2025-11-11 (v9; submitted 2024-06-12)",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "arXiv abstract and metadata",
+    "firsthand": true,
+    "findings": [
+      "Defines repetition stability, position consistency, and preference fairness to measure judge reliability.",
+      "Across over 150,000 instances, position bias is non-random and varies by judge, candidate, and task; quality gaps affect the bias.",
+      "The framework supports order-swapping and repeated evaluation instead of trusting one A/B ordering."
+    ],
+    "limitations": [
+      "The experiments are text LLM settings, not 3D visual judging.",
+      "Order-swap tests add cost and cannot reveal every visual bias.",
+      "Position consistency is necessary but not sufficient for semantic correctness."
+    ],
+    "skill_implications": [
+      "When comparing candidate renders or before/after repairs, randomize A/B order and repeat at least once.",
+      "Log judge variance and abstain when repeated verdicts conflict.",
+      "Use pairwise preference only as a soft signal; hard geometry gates remain authoritative."
+    ],
+    "source_refs": [
+      "Q08"
+    ]
+  },
+  {
+    "id": "AN40",
+    "title": "Blender Python API: Mesh and mesh-edit mode gotchas",
+    "url": "https://docs.blender.org/api/5.2/bpy.types.Mesh.html",
+    "source_type": "official Blender API documentation",
+    "published_or_updated": "Blender 5.2 API documentation (retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "Mesh.validate, Mesh.update, unit_test_compare, and current mesh data model entries",
+    "firsthand": true,
+    "findings": [
+      "Mesh.validate can correct/remove invalid geometry and returns whether changes were made; Mesh.update and unit_test_compare support post-edit verification.",
+      "Blender stores vertices, edges, loops, and polygons separately; scripts must not assume that a successfully created datablock is valid geometry.",
+      "The Blender mesh gotchas documentation warns that edit-mode data can be out of sync with object-mode mesh data; scripts should leave edit mode or explicitly sync through BMesh."
+    ],
+    "limitations": [
+      "API validity checks do not prove perceptual correctness, watertightness, collision-free assembly, or good topology flow.",
+      "API semantics vary by Blender version; the skill must pin and record the runtime version.",
+      "Mesh.validate may repair data, so the before/after diff must be recorded rather than silently accepted."
+    ],
+    "skill_implications": [
+      "Run object-mode synchronization, Mesh.validate on a copy where possible, and role/target-specific normals/degenerate/loose-geometry checks; record any automatic repairs and repeat downstream checks.",
+      "Reopen the saved .blend and rerun checks to catch unsaved or context-dependent state.",
+      "Do not use topology counts as a universal quality score; use class-specific budgets and visual evidence."
+    ],
+    "source_refs": [
+      "Q10"
+    ]
+  },
+  {
+    "id": "AN41",
+    "title": "Khronos glTF-Validator",
+    "url": "https://github.com/KhronosGroup/glTF-Validator",
+    "source_type": "official Khronos validation tool and source repository",
+    "published_or_updated": "current main branch (retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "README features, issue classes, CLI behavior, and exit-code contract",
+    "firsthand": true,
+    "findings": [
+      "Validates glTF 2.0 JSON/GLB syntax, schema, internal references, buffers, invalid accessor values including NaN, animation inputs/outputs, images, and extensions.",
+      "Writes a JSON report and returns a non-zero exit code when errors are found, making it suitable for an export gate.",
+      "Warnings and hints remain distinct from specification errors; the validator is about interchange correctness, not beauty."
+    ],
+    "limitations": [
+      "Only applies after exporting to glTF/GLB and cannot validate native Blender-only features that are not represented in glTF.",
+      "A glTF-valid asset can still have wrong proportions, floating parts, poor silhouette, or bad artistic direction.",
+      "Version and extension support must be recorded for reproducibility."
+    ],
+    "skill_implications": [
+      "If the requested deliverable includes GLB/glTF, make zero validator errors a hard gate and retain the JSON report.",
+      "Treat warnings as policy-driven (fail for production-critical classes, allow documented hints).",
+      "Pair export validation with native .blend reopen and multi-view render checks."
+    ],
+    "source_refs": [
+      "Q11"
+    ]
+  },
+  {
+    "id": "AN42",
+    "title": "Khronos glTF Asset Auditor",
+    "url": "https://github.com/KhronosGroup/gltf-asset-auditor",
+    "source_type": "official Khronos repository / configurable asset QA",
+    "published_or_updated": "current main branch (retrieved 2026-10-27)",
+    "retrieved_at": "2026-10-27T23:35:52+07:00",
+    "read_depth": "README schema model, pass/fail/not-tested semantics, checks, and performance notes",
+    "firsthand": true,
+    "findings": [
+      "Checks glTF assets against a JSON requirements schema and returns Pass, Fail, or Not Tested, with messages.",
+      "Available checks include file/triangle/material/node/mesh counts, dimensions, non-manifold edges, bevels, PBR-safe colors, texture resolution, texel density, UV space, inverted UVs, overlaps, and gutters.",
+      "The README documents O(n log n) shared-edge/UV computations and warns that some checks become slow on large meshes."
+    ],
+    "limitations": [
+      "The checks are glTF-oriented and do not replace scene semantics or visual review.",
+      "Dimension and topology requirements must be authored per asset class; generic thresholds create false failures.",
+      "Not Tested must remain visible; treating it as Pass would hide coverage gaps."
+    ],
+    "skill_implications": [
+      "Use a schema-driven hard-check profile chosen from the internal contract (prop, character, environment, export target).",
+      "Make Not Tested a first-class outcome and report slow checks/timeouts separately.",
+      "Use triangle/UV/material budgets as guardrails, not as a proxy for beauty."
+    ],
+    "source_refs": [
+      "Q12"
+    ]
+  },
+  {
+    "id": "AN43",
+    "title": "Effective harnesses for long-running agents",
+    "url": "https://www.anthropic.com/research/effective-harnesses-for-long-running-agents",
+    "source_type": "first-party engineering research / web-application agent case study",
+    "published_or_updated": "2025-11-26",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "relevant sections on initializer, progress artifacts, incremental execution, testing and premature completion",
+    "firsthand": true,
+    "findings": [
+      "Long-running work benefits from explicit initialization, a durable progress record, small changes and verification of actual outcomes.",
+      "Compaction alone does not preserve all operational context; agents can prematurely declare a task complete."
+    ],
+    "limitations": [
+      "The demonstrated environment is software/web application work, not an autonomous 3D-quality benchmark.",
+      "Applying these patterns to Blender is a design inference that still needs forward testing."
+    ],
+    "skill_implications": [
+      "Maintain a compact run ledger linked to actual scene state, checkpoints, outstanding criteria and render evidence.",
+      "Resume from a verified artifact instead of trusting a prose claim of completion."
+    ],
+    "source_refs": [
+      "R01"
+    ]
+  },
+  {
+    "id": "AN44",
+    "title": "Building effective agents",
+    "url": "https://www.anthropic.com/engineering/building-effective-agents",
+    "source_type": "first-party engineering guidance",
+    "published_or_updated": "date not used for a version claim; retrieved 2026-10-27",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "relevant sections on routing, chaining, evaluator-optimizer and orchestration",
+    "firsthand": true,
+    "findings": [
+      "Routing and evaluator-optimizer workflows separate task choice, generation and feedback.",
+      "Added orchestration has cost and complexity; start with the simplest workflow that meets the task."
+    ],
+    "limitations": [
+      "General agent guidance is not evidence that a particular Blender model or novice workflow succeeds.",
+      "Multiple agents do not by themselves establish independent or accurate visual judgment."
+    ],
+    "skill_implications": [
+      "Route by modeling need and runtime capability before choosing a backend.",
+      "Use separate critic calls and a measured repair loop; parallelize only genuinely independent work."
+    ],
+    "source_refs": [
+      "R02"
+    ]
+  },
+  {
+    "id": "AN45",
+    "title": "Demystifying evals for AI agents",
+    "url": "https://www.anthropic.com/research/demystifying-evals-for-ai-agents",
+    "source_type": "first-party evaluation methodology",
+    "published_or_updated": "2026-01-09",
+    "retrieved_at": "2026-10-27",
+    "read_depth": "relevant sections on outcomes, traces, graders, repeated trials, capability/regression and pass metrics",
+    "firsthand": true,
+    "findings": [
+      "Evaluate the actual resulting state as well as the agent trajectory; an agent's own claim is not an outcome.",
+      "Repeated trials and complementary code/model/human graders expose different failures.",
+      "At-least-one success across trials and consistent success across all trials answer different reliability questions."
+    ],
+    "limitations": [
+      "This is evaluation methodology, not a measured success rate for the proposed 3D skill.",
+      "Aesthetic judgments still require task-specific calibration and independent human assessment."
+    ],
+    "skill_implications": [
+      "Record per-run success, technical interventions, resources, repair outcomes and saved-artifact checks.",
+      "Report first-attempt and repeated-run reliability instead of selecting only the best demo."
+    ],
+    "source_refs": [
+      "R03"
+    ]
+  },
+  {
+    "id": "AN46",
+    "title": "Disney Animation: Animation process and principles",
+    "url": "https://www.disneyanimation.com/process/animation/",
+    "source_type": "official studio craft page",
+    "published_or_updated": "current page retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Disney Animation describes animator work in terms of timing, clear staging, squash and stretch, anticipation, follow-through, secondary action, anatomy, weight, movement, appeal, and character performance.",
+    "limitations": "The page is a concise studio overview, not a shot-by-shot production breakdown or a recipe with numeric timing values.",
+    "skill_implications": "Make staging, anticipation, weight, overlap, and appeal explicit review questions. Treat them as context-sensitive craft checks, not universal keyframe counts."
+  },
+  {
+    "id": "AN47",
+    "title": "Pixar in a Box project overview",
+    "url": "https://www.pixar.com/pixar-in-a-box",
+    "source_type": "official studio education project page",
+    "published_or_updated": "current page retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page introduction; linked lessons not watched",
+    "firsthand": true,
+    "findings": "Pixar and Khan Academy frame animation and filmmaking as applied math, science, and art lessons, linking production choices to underlying concepts.",
+    "limitations": "Only the project introduction was read; the linked lesson videos and exercises were not downloaded or watched.",
+    "skill_implications": "Use plain-language explanations for timing, trajectories, camera, and constraints internally; do not claim the skill has absorbed lesson content it did not read."
+  },
+  {
+    "id": "AN48",
+    "title": "Blender 5.2 LTS Manual: Animation and rigging introduction",
+    "url": "https://docs.blender.org/manual/en/5.2/animation/introduction.html",
+    "source_type": "official Blender 5.2 manual",
+    "published_or_updated": "2026-10-19 page footer; Blender 5.2 LTS",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "search result snippet only",
+    "firsthand": true,
+    "findings": "The manual describes object and shape change over time, keyframes, armatures, constraints, modifiers, shape keys, drivers, and camera rigs as the basic animation/rigging vocabulary.",
+    "limitations": "The page was visible through the search result, but direct page retrieval was unavailable in this pass; runtime behavior was not tested.",
+    "skill_implications": "Represent motion intent independently of a specific operator, then choose keyframes, armatures, constraints, or drivers only after target and use are known. Mark Blender 5.2 runtime coverage NOT_TESTED."
+  },
+  {
+    "id": "AN49",
+    "title": "Blender 5.2 LTS Manual: Import SVG as Curves",
+    "url": "https://docs.blender.org/manual/en/latest/files/import_export/svg_curve.html",
+    "source_type": "official Blender 5.2 manual",
+    "published_or_updated": "current 5.2 LTS manual page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "search result snippet only",
+    "firsthand": true,
+    "findings": "The documented importer converts SVG paths to Blender curve objects in the XY plane, scaled by SVG document units; gradients, fills, strokes, text, images, and filters are ignored.",
+    "limitations": "This is documentation evidence only. The importer was not run and no SVG 5.2 runtime result was inspected.",
+    "skill_implications": "For SVG input, preserve path-only expectations and report ignored features. Do not claim SVG 5.2 support from documentation alone; label runtime NOT_TESTED."
+  },
+  {
+    "id": "AN50",
+    "title": "Blender 5.2 LTS Manual: SVG Grease Pencil import/export",
+    "url": "https://docs.blender.org/manual/en/5.2/files/import_export/grease_pencil_svg.html",
+    "source_type": "official Blender 5.2 manual",
+    "published_or_updated": "current 5.2 LTS manual page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "search result snippet only",
+    "firsthand": true,
+    "findings": "The documented Grease Pencil exporter can emit the active, selected, or all scene frames as SVG animation and exposes sampling, fill, uniform width, and camera clipping options.",
+    "limitations": "The page was observed in search output only; no import/export or browser playback was run.",
+    "skill_implications": "Keep vector timeline and exported SVG as separate representations. Report documentation/readiness separately from runtime playback, and retain NOT_TESTED until a real export and browser check exists."
+  },
+  {
+    "id": "AN51",
+    "title": "Roblox Creator Hub: Animation Editor",
+    "url": "https://create.roblox.com/docs/animation/editor",
+    "source_type": "official Roblox Creator Hub documentation",
+    "published_or_updated": "current page; ©2026 Roblox Corporation",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page lines 47-267",
+    "firsthand": true,
+    "findings": "Roblox documents rig poses on a seconds:frames timeline at 30 fps, easing modes, keyframe optimization, looping by duplicating the first keys at the end, priority layers, and publishing. The custom rig must have the intended AssemblyRootPart; PrimaryPart alone does not determine the animation root.",
+    "limitations": "Documentation was read; Roblox Studio playback and publishing were not run.",
+    "skill_implications": "For Roblox delivery, define root, FPS, loop seam, easing, priority, and publish target in the contract. Verify the actual Roblox asset in Studio before calling native playback PASS."
+  },
+  {
+    "id": "AN52",
+    "title": "Roblox Creator Hub: IKControl",
+    "url": "https://create.roblox.com/docs/reference/engine/classes/IKControl",
+    "source_type": "official Roblox engine API documentation",
+    "published_or_updated": "current page; crawled 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full API page and setup example",
+    "firsthand": true,
+    "findings": "IKControl creates procedural poses when parented to a Humanoid or AnimationController with an Animator and when Type, EndEffector, Target, and ChainRoot are set. It can place feet on terrain, hands on props, or aim a weapon; Weight and Enabled blend/disable the result. Incorrect chains can produce bad poses.",
+    "limitations": "API documentation is not a proof that this workspace has Roblox Studio, a valid rig, or native playback access.",
+    "skill_implications": "Use IK for contacts and environment adaptation after a source clip, but validate chain root/end effector and weights. Keep the source animation and procedural overlay separately inspectable."
+  },
+  {
+    "id": "AN53",
+    "title": "Unreal Engine 5.8: IK Rig Animation Retargeting",
+    "url": "https://dev.epicgames.com/documentation/unreal-engine/ik-rig-animation-retargeting-in-unreal-engine?lang=en-US",
+    "source_type": "official Epic Developer Community documentation",
+    "published_or_updated": "Unreal Engine 5.8 current page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page relevant overview and retarget-pose section",
+    "firsthand": true,
+    "findings": "Unreal IK Retargeting transfers animation between skeletal meshes with different bone counts, names, and orientations, and can preserve hand/foot contacts through IK. Retarget poses must be aligned when source and target rest poses differ, such as A-pose versus T-pose.",
+    "limitations": "Documentation does not establish that the skill can run Unreal Editor or export/import a specific project.",
+    "skill_implications": "Make rest pose, bone chains, scale, and contact goals explicit preflight data. Treat a retargeted sequence as a candidate that still needs visual foot/hand and silhouette inspection."
+  },
+  {
+    "id": "AN54",
+    "title": "Unreal Engine 5.8: Motion Matching",
+    "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/motion-matching-in-unreal-engine?lang=en-US",
+    "source_type": "official Epic Developer Community documentation",
+    "published_or_updated": "Unreal Engine 5.8 current page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page overview and setup sections",
+    "firsthand": true,
+    "findings": "Motion Matching queries trajectory and pose channels against a database and selects a responsive pose without hand-authored state transitions. The documentation recommends few trajectory samples because more samples can distort results, and exposes debugging/selection weights.",
+    "limitations": "This is an Unreal runtime system requiring a Pose Search plugin, skeleton, and locomotion clips; it is not evidence for Blender-native motion or cross-platform playback.",
+    "skill_implications": "Route locomotion requests to a motion-library/database path only when the target is Unreal. Record the database, channels, and chosen sample policy; do not equate a render with Motion Matching playback."
+  },
+  {
+    "id": "AN55",
+    "title": "Unreal Engine: Animation Retargeting",
+    "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/animation-retargeting-in-unreal-engine?lang=en-US",
+    "source_type": "official Epic Developer Community documentation",
+    "published_or_updated": "Unreal Engine 5.8 current page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Unreal separates skeleton proportions from animation rotation/translation modes. Retargeting can share motion across characters with different proportions; pelvis and other animated translations may use AnimationScaled, while root, IK, weapon, and marker bones use Animation in the documented biped workflow. Hand/foot IK can be selectively enabled for props or precise contacts.",
+    "limitations": "The page explains engine behavior, not a universal retargeting quality threshold. Native Unreal verification remains NOT_TESTED in this workspace.",
+    "skill_implications": "Selectively preserve FK for free locomotion and IK for precise contacts. Add engine-specific retarget settings to the provenance report instead of hiding them in a generic FBX export."
+  },
+  {
+    "id": "AN56",
+    "title": "Unity Manual: Importing humanoid animations",
+    "url": "https://docs.unity3d.com/es/2020.2/Manual/ConfiguringtheAvatar.html",
+    "source_type": "official Unity Manual",
+    "published_or_updated": "2020.2 manual page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page lines 76-158",
+    "firsthand": true,
+    "findings": "Unity maps imported bones to a Humanoid Avatar, recommends a valid T-pose, allows clip ranges, root transforms, looping, mirroring, curves/events, masks, and root-motion-node selection, and warns that a successful automatic bone match is not enough: optional bones and pose still need review.",
+    "limitations": "The page is a historical versioned manual and Unity Editor playback was not run.",
+    "skill_implications": "Treat avatar mapping, T-pose, clip ranges, root motion, and import warnings as explicit gates. Do not mark Unity native playback from an FBX export alone."
+  },
+  {
+    "id": "AN57",
+    "title": "Unity Manual: Animation Clips and root motion settings",
+    "url": "https://docs.unity3d.com/cn/2018.3/Manual/class-AnimationClip.html",
+    "source_type": "official Unity Manual",
+    "published_or_updated": "2018.3 manual page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page lines 64-199",
+    "firsthand": true,
+    "findings": "Unity defines clips as isolated motion units and exposes Loop Time, Loop Pose, root rotation/position bake settings, mirroring, additive reference pose, curves, events, masks, motion roots, compression, and retargeting warnings such as mismatched bone lengths or discarded transforms.",
+    "limitations": "The documentation is versioned and old relative to current Unity; no Editor import or playback was executed.",
+    "skill_implications": "Keep source take, clip range, loop seam, root policy, compression, and discarded-channel warnings in the delivery manifest. Treat old-version docs as guidance, not current runtime proof."
+  },
+  {
+    "id": "AN58",
+    "title": "Unity Manual: Retargeting of Humanoid animations",
+    "url": "https://docs.unity3d.com/ru/2018.3/Manual/Retargeting.html",
+    "source_type": "official Unity Manual",
+    "published_or_updated": "2018.3 manual page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Unity humanoid retargeting requires a configured Avatar and lets multiple models reuse an Animator Controller; the recommended hierarchy places the model and Animator under a character GameObject.",
+    "limitations": "The page is an older manual and was read as documentation; no Unity runtime was available for this workspace.",
+    "skill_implications": "When targeting Unity, deliver a valid Avatar mapping and controller reference, then require a native preview. Keep retargeted animation separate from scene-level controller wiring."
+  },
+  {
+    "id": "AN59",
+    "title": "Unity Manual: Root Motion",
+    "url": "https://docs.unity3d.com/cn/2018.3/Manual/RootMotion.html",
+    "source_type": "official Unity Manual",
+    "published_or_updated": "2018.3 manual page",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "search result snippet only",
+    "firsthand": true,
+    "findings": "Unity stores body transform/orientation in the Animation Clip and computes the Root Transform at runtime to drive the GameObject. Root motion is therefore a playback policy, not just a bone curve.",
+    "limitations": "Only search-result content was available in this pass and no Unity playback was tested.",
+    "skill_implications": "Record whether motion is in-place or root-driven and which object owns displacement. Require native target verification before declaring locomotion correct."
+  },
+  {
+    "id": "AN60",
+    "title": "MDN SVG `<animate>` reference",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/animate",
+    "source_type": "official MDN web platform reference",
+    "published_or_updated": "page modified 2026-09-11",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "SVG `<animate>` changes an element attribute over time and is widely available. MDN also calls out motion-sensitivity concerns and recommends pause/disable or reduced-motion accommodations.",
+    "limitations": "Browser support claims are documentation-level; this workspace did not execute a browser compatibility matrix or inspect a generated SVG.",
+    "skill_implications": "For vector animation, preserve attribute timelines and accessibility controls. Report browser runtime as NOT_TESTED until the generated file is opened in the intended browser/runtime."
+  },
+  {
+    "id": "AN61",
+    "title": "MDN Web Animations API: Element.animate()",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/animate",
+    "source_type": "official MDN web platform reference",
+    "published_or_updated": "current page retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page relevant examples and timing sections",
+    "firsthand": true,
+    "findings": "Element.animate() creates a browser Animation from keyframes and timing options, supports explicit offsets, iterations, playback, and current-state inference for missing from/to keyframes.",
+    "limitations": "Documentation describes browser behavior; no generated HTML/CSS/JS was run in this workspace.",
+    "skill_implications": "Map timing intent to explicit keyframes, offsets, duration, iterations, and playback policy. Keep CSS/Web Animations separate from Blender/GLB; do not claim runtime support without a target-browser check."
+  },
+  {
+    "id": "AN62",
+    "title": "Rive for AI agents: build with the Rive CLI",
+    "url": "https://rive.app/agents",
+    "source_type": "official Rive product/agent documentation",
+    "published_or_updated": "current page retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page relevant sections",
+    "firsthand": true,
+    "findings": "Rive documents RML-authored `.riv` output with vector/3D graphics, state machines, data binding, and layouts, plus offline preview/verify, headless rendering/testing, signed scripts, and runtimes across web, mobile, desktop, and game engines.",
+    "limitations": "This is provider documentation and marketing-adjacent product guidance; no Rive CLI was installed or executed.",
+    "skill_implications": "Treat RML as editable text and `.riv` as runtime artifact. Preserve scripts/assets and require `verify`/headless output evidence if the target is Rive; do not claim native playback from an exported file alone."
+  },
+  {
+    "id": "AN63",
+    "title": "Introducing the Rive CLI and RML",
+    "url": "https://community.rive.app/c/announcements/introducing-the-rive-cli-and-rml",
+    "source_type": "first-party Rive staff announcement",
+    "published_or_updated": "2025-09-11 announcement",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full short announcement",
+    "firsthand": true,
+    "findings": "Rive staff distinguish `.rev` as editor file, `.riv` as runtime file, and RML as readable/writable text. The CLI can push/pull through the editor before publishing a `.riv`.",
+    "limitations": "The announcement is a concise product post rather than a runtime specification; no CLI or editor session was run.",
+    "skill_implications": "Keep `.rml`, `.rev`, and `.riv` provenance separate. A text source, editor project, and runtime binary are different deliverables and must not be conflated in the receipt."
+  },
+  {
+    "id": "AN64",
+    "title": "Adobe Mixamo FAQ",
+    "url": "https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html",
+    "source_type": "official Adobe FAQ",
+    "published_or_updated": "last updated 2021-09-14",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Adobe says Mixamo characters and animations are royalty-free for personal, commercial, and nonprofit projects, including films, games, illustrations, and prints. Auto-rigging/library coverage is biped humanoid and requires a clean neutral character with appropriate limbs and no helper objects/props/camera.",
+    "limitations": "The FAQ is dated and not a substitute for the binding terms. It does not grant permission to redistribute raw library files or to use them for ML/AI training.",
+    "skill_implications": "Use Mixamo as an embedded/project source only after a license check. Preserve the downloaded source and attribution/provenance privately, do not bundle raw library assets as a new library, and route non-humanoids elsewhere."
+  },
+  {
+    "id": "AN65",
+    "title": "Adobe Mixamo rigging and animation guide",
+    "url": "https://helpx.adobe.com/creative-cloud/help/mixamo-rigging-animation.html",
+    "source_type": "official Adobe help documentation",
+    "published_or_updated": "current page retrieved 2026-10-28; content dated with FAQ family",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Adobe documents FBX/OBJ/ZIP upload, marker placement, automatic rigging, skeleton mapping, animation browsing, preview, speed/arm-spacing edits, and local download of a rigged character/clip.",
+    "limitations": "The page describes product operations; no upload/download was performed and no runtime output was inspected.",
+    "skill_implications": "A retrieval/retarget route can be automated around a clean humanoid source, but the skill must check rest pose, scale, contacts, and license before using a clip."
+  },
+  {
+    "id": "AN66",
+    "title": "Adobe Mixamo Additional Terms",
+    "url": "https://wwwimages2.adobe.com/content/dam/cc/en/legal/servicetou/Mixamo-Addl-Terms-en_US-20210623.pdf",
+    "source_type": "official Adobe legal terms PDF",
+    "published_or_updated": "effective 2021-06-23",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full one-page legal PDF",
+    "firsthand": true,
+    "findings": "The Additional Terms prohibit using Mixamo services, software, content, data, output, or derived information to create, train, test, or improve ML/AI systems.",
+    "limitations": "Legal interpretation depends on the complete Adobe agreement and jurisdiction; this record is not legal advice. The terms may change and must be rechecked before a production release.",
+    "skill_implications": "Never feed Mixamo assets or outputs into a model-training/evaluation corpus. Keep plugin MIT code/docs distinct from bundled third-party motion assets and preserve a license decision in the receipt."
+  },
+  {
+    "id": "AN67",
+    "title": "Adobe community: Mixamo licensing, royalties, ownership, and distribution",
+    "url": "https://community.adobe.com/questions-696/mixamo-faq-licensing-royalties-ownership-eula-and-tos-589400?lang=en",
+    "source_type": "Adobe community thread / secondary clarification",
+    "published_or_updated": "thread retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full thread",
+    "firsthand": false,
+    "findings": "The thread quotes the practical boundary that embedded use in games, films, illustrations, prints, and merchandise is allowed while raw character/animation files should not be redistributed as standalone assets or templates; a later user receives the official FAQ link rather than a new legal grant.",
+    "limitations": "Community replies are not binding legal text and can be incomplete or stale. The official FAQ and Additional Terms control.",
+    "skill_implications": "Use this only as an operational warning; cite the official Adobe terms for a final policy and reject raw-library redistribution by default."
+  },
+  {
+    "id": "AN68",
+    "title": "Epic Game Animation Sample Project (GASP)",
+    "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/game-animation-sample-project-in-unreal-engine",
+    "source_type": "official Epic Unreal Engine documentation",
+    "published_or_updated": "current page retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Epic describes GASP as a motion-capture suite for Motion Matching locomotion and traversal, with IK Rig/Retargeter workflows for bringing another character into the sample. The docs describe migration of Unreal assets and a motion database; they do not present GASP as an open cross-platform clip pack.",
+    "limitations": "The page documents an Unreal project; no Unreal project was downloaded or run. It does not determine the exact license of every asset outside the linked project.",
+    "skill_implications": "Treat GASP as an Unreal-targeted source candidate. Do not promise FBX/Blender/Unity redistribution or AI use without checking the listing and binding license for the exact asset."
+  },
+  {
+    "id": "AN69",
+    "title": "Fab listing: Game Animation Sample Project",
+    "url": "https://www.fab.com/listings/880e319a-a59e-4ed2-b268-b32dac7fa016?lang=en",
+    "source_type": "official Epic Fab asset listing",
+    "published_or_updated": "current listing retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full rendered listing",
+    "firsthand": true,
+    "findings": "The listing advertises 500+ animations and UE5 Mannequin/runtime retargeting, and the rendered metadata showed Included Format: Unreal Engine, Allows usage with AI: No, Generated with AI: No.",
+    "limitations": "The rendered listing did not expose a complete specific license field in this read; do not infer a cross-platform or AI right from the count or from Fab in general.",
+    "skill_implications": "Require an exact asset-license record before retrieval or bundling. The default route is Unreal project use only and no AI dataset/training/evaluation use until legal terms say otherwise."
+  },
+  {
+    "id": "AN70",
+    "title": "Fab licensing and pricing documentation",
+    "url": "https://dev.epicgames.com/documentation/fab/licenses-and-pricing-in-fab?lang=en-US",
+    "source_type": "official Epic Fab licensing documentation",
+    "published_or_updated": "current docs retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Fab documents Standard and Creative Commons license categories and the existence of legacy Unreal Marketplace terms; the exact product listing and selected license still determine what can be shipped.",
+    "limitations": "This page is a general guide, not the binding terms for the specific GASP listing or any future asset.",
+    "skill_implications": "Record the asset ID, seller license, version, and whether usage is project-embedded, source-distributed, or AI-related. Do not collapse Fab and Unreal Engine licensing into one blanket rule."
+  },
+  {
+    "id": "AN71",
+    "title": "Epic Content License Agreement",
+    "url": "https://www.unrealengine.com/eula/content",
+    "source_type": "official Epic legal agreement",
+    "published_or_updated": "current agreement retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full legal page",
+    "firsthand": true,
+    "findings": "Epic limits licensed content to non-exclusive, non-transferable, non-sublicensable use; permits object-code distribution only as an inseparable part of a Project and rendered linear media, restricts source-format sharing, identifies UE-Only Content, and prohibits standalone resale/transfer and NoAI content use in generative-AI development or inputs.",
+    "limitations": "Legal terms and asset designations can change; this is not legal advice and does not replace the exact Fab listing terms.",
+    "skill_implications": "Keep Epic content out of a general motion-library bundle. Allow only the precise embedded/project or rendered-media route supported by the current license and record AI restrictions explicitly."
+  },
+  {
+    "id": "AN72",
+    "title": "Quaternius Universal Animation Library",
+    "url": "https://quaternius.com/packs/universalanimationlibrary.html",
+    "source_type": "original creator asset page",
+    "published_or_updated": "current page retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Quaternius presents 120+ universal humanoid animations with ready-to-retarget clips, root/no-root variants, Mixamo compatibility, engine formats, and CC0/commercial use language.",
+    "limitations": "The asset page is creator-provided and does not prove every file variant has been inspected. No assets were downloaded or tested in Blender/Unity/Unreal.",
+    "skill_implications": "Use as a candidate default for a distributable motion-library route only after recording the exact pack/version and preserving CC0 metadata. Retarget and validate contacts on the target rig."
+  },
+  {
+    "id": "AN73",
+    "title": "Quaternius Universal Base Characters",
+    "url": "https://quaternius.com/packs/universalbasecharacters.html",
+    "source_type": "original creator asset page",
+    "published_or_updated": "current page retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Quaternius describes CC0 humanoid base characters with rigs designed to work with the Universal Animation Library and cross-engine workflows.",
+    "limitations": "No character file was downloaded, retargeted, or played in a target engine during this pass.",
+    "skill_implications": "A CC0 base character can support a transparent retrieval/retarget path, but treat rig compatibility as a tested property rather than a page-level assumption."
+  },
+  {
+    "id": "AN74",
+    "title": "Kenney Animated Characters Retro",
+    "url": "https://kenney.nl/assets/animated-characters-retro",
+    "source_type": "original creator asset page",
+    "published_or_updated": "current page retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "Kenney presents a CC0 pack of animated 3D characters. It is a character/animation asset source, not proof of a general mocap library or universal rig compatibility.",
+    "limitations": "No files were downloaded or played; exact animation coverage and rig interchange were not tested.",
+    "skill_implications": "Use only when the target style fits and verify the pack’s actual rig/clip format. Keep CC0 attribution/provenance in the manifest even when attribution is not required."
+  },
+  {
+    "id": "AN75",
+    "title": "Creative Commons CC0 1.0 deed",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source_type": "official Creative Commons legal deed",
+    "published_or_updated": "current deed retrieved 2026-10-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "full page",
+    "firsthand": true,
+    "findings": "CC0 permits copying, modifying, distributing, and performing a work, including commercially, while disclaiming warranties and not waiving patent, trademark, or privacy/publicity rights.",
+    "limitations": "CC0 does not verify that the releaser owns every underlying right and does not grant rights outside copyright; provenance and third-party marks still require review.",
+    "skill_implications": "Use CC0 as the safest bundled motion/character default, but retain source and rights metadata and reject content whose underlying ownership is unclear."
+  },
+  {
+    "id": "AN76",
+    "title": "Supplied Facebook animation-library claim: caption, comments, images, and video samples",
+    "url": "user-supplied Facebook post (direct permalink not retained in implementation handoff)",
+    "source_type": "user-supplied social post / observation context",
+    "published_or_updated": "supplied context; date and author identity not retained",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "caption, four comments, two images, and two supplied video samples inspected; no raw text/media retained",
+    "firsthand": false,
+    "findings": "The supplied caption speculates that an unnamed animation website may mainly aggregate pre-existing Mixamo or Unreal GASP clips and retarget them to one skeleton. Four supplied comments and two images were reviewed for that retrieval/retargeting hypothesis. Two video samples were inspected at 13.64 seconds and 62.30 seconds. A visible UI count of 1137 was treated as a self-reported interface number, not as a payload or catalog count.",
+    "limitations": "The allegation was not proven: no source clip IDs, backend/API trace, license record, raw skeleton, `.blend`, `.fbx`, or reproducible export was supplied. The post is not an author identity dossier and is not evidence that the creator used Mixamo, GASP, Claude, or a particular website. Exact Facebook text/screenshots/session data are intentionally excluded from the release catalog.",
+    "skill_implications": "Adopt the useful hypothesis as a route option: retrieve licensed clips, retarget to the target rig, then repair/criticize contacts and staging. Preserve transparent provenance and a custom-generation fallback; never infer clip origin from a polished render or UI count.",
+    "supplied_material_inventory": {
+      "caption": "full supplied caption inspected; release copy is a paraphrase of the retrieval/retargeting claim",
+      "comments": {
+        "count": 4,
+        "status": "all four supplied comments inspected; exact wording and account identifiers omitted"
+      },
+      "images": {
+        "count": 2,
+        "status": "both supplied images inspected; no image bytes or screenshots retained"
+      },
+      "video_samples_seconds": [
+        13.64,
+        62.3
+      ],
+      "visible_ui_count": {
+        "value": 1137,
+        "status": "self-reported interface number; not treated as payload/catalog evidence"
+      }
+    }
+  },
+  {
+    "id": "AN77",
+    "title": "Human Motion Diffusion Model (MDM)",
+    "url": "https://arxiv.org/abs/2209.14916",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2022-09-29; arXiv v2 2022-10-03",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "MDM-2209.14916",
+    "findings": [
+      "The paper presents MDM as a classifier-free diffusion transformer adapted to human motion, with text-to-motion and action-to-motion conditioning modes.",
+      "It predicts the motion sample rather than diffusion noise, which lets the training objective use geometric losses on joint locations and velocities, including a foot-contact loss.",
+      "The authors report strong benchmark results and additional motion-editing and unconstrained-synthesis applications in the paper, but the source is a research model rather than a Blender or engine clip contract."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read in this catalog pass; benchmark numbers and implementation details were not independently recomputed.",
+      "The paper does not establish arbitrary-rig support, native Blender Actions, retargeting, export semantics, or local inference cost.",
+      "A paper claim about foot-contact loss is not evidence that a generated asset is contact-correct on a new rig."
+    ],
+    "skill_implications": [
+      "Treat text/action conditioning and explicit contact-aware losses as research design cues; keep contacts as observable intervals in the skill's motion contract and QA receipt.",
+      "Do not expose MDM as an available backend unless a configured worker and a native export path are actually detected.",
+      "After any generated motion, inspect evaluated joint trajectories and target-rig contacts instead of treating a diffusion success response as finished animation."
+    ]
+  },
+  {
+    "id": "AN78",
+    "title": "MotionGPT: Finetuned LLMs Are General-Purpose Motion Generators",
+    "url": "https://arxiv.org/abs/2306.10900",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2023-06-19; arXiv v2 2024-03-18",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "MotionGPT-2306.10900",
+    "findings": [
+      "MotionGPT quantizes multimodal control signals such as text and a single-frame pose into discrete codes, then asks a fine-tuned language model to generate a motion answer from unified prompt instructions.",
+      "The paper reports tuning 0.4% of the LLM parameters and frames the model as a general-purpose human-motion generator across control modalities."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read here; the paper's task suite, code path, datasets, and reported metrics were not locally reproduced.",
+      "The model is a human-motion research system and does not prove arbitrary Blender object animation, semantic part naming, rig compatibility, or target-runtime playback.",
+      "The paper's parameter-efficient fine-tuning claim is not a promise about tokens, latency, or cost for this plugin."
+    ],
+    "skill_implications": [
+      "Let the prompt compiler preserve optional pose/keyframe evidence alongside text intent, rather than reducing every request to a single prose sentence.",
+      "Keep a semantic motion plan and target-rig representation between the user request and authored curves; do not translate a language-model response directly into an uninspected clip.",
+      "Use MotionGPT as a conditioning principle only until an actual motion backend and export/retarget receipt are available."
+    ]
+  },
+  {
+    "id": "AN79",
+    "title": "MoMask: Generative Masked Modeling of 3D Human Motions",
+    "url": "https://arxiv.org/abs/2312.00063",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2023-11-29; arXiv v1",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "MoMask-2312.00063",
+    "findings": [
+      "MoMask uses hierarchical residual vector-quantized motion tokens, a masked transformer for base tokens, and a residual transformer for progressively finer tokens.",
+      "Its inference procedure iteratively fills masked motion tokens and the paper reports text-guided temporal inpainting without additional fine-tuning, alongside text-to-motion benchmark results."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read in this pass; the code, model checkpoints, data license, and runtime were not inspected or executed.",
+      "The reported HumanML3D and KIT-ML results concern human-motion benchmarks, not arbitrary skeletons, props, camera motion, or native Blender playback.",
+      "Token-level inpainting does not by itself guarantee contact, retargeting, or transition quality after a target rig is evaluated."
+    ],
+    "skill_implications": [
+      "Prefer localized temporal edits when one interval is defective: preserve accepted motion and inpaint or re-author the diagnosed region instead of regenerating the whole shot.",
+      "Run transition, contact, and root checks after any local edit; masked-token reconstruction is a research route, not a local validation result.",
+      "Keep the original motion and the edited derivative in the provenance record."
+    ]
+  },
+  {
+    "id": "AN80",
+    "title": "OmniControl: Control Any Joint at Any Time for Human Motion Generation",
+    "url": "https://arxiv.org/abs/2310.08580",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2023-10-12; arXiv v2 2024-04-14; ICLR 2024",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "OmniControl-2310.08580",
+    "findings": [
+      "OmniControl adds flexible spatial controls over different joints at different times to a text-conditioned human-motion diffusion model, instead of limiting control to pelvis trajectories.",
+      "The method combines analytic spatial guidance for constraint adherence with realism guidance that refines the remaining joints, and reports results on HumanML3D and KIT-ML."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read; no project code, checkpoint, inference, retargeting map, or Blender bridge was exercised.",
+      "The paper's spatial controls are expressed in its human-motion representation and do not define a generic object, camera, or engine constraint API.",
+      "Reported realism and control accuracy are external benchmark evidence, not proof of a visually acceptable target-rig animation."
+    ],
+    "skill_implications": [
+      "Compile user constraints into explicit joint/path/contact observations when they matter, with time windows rather than vague adjectives.",
+      "Validate constrained joints and neighboring joints separately: exact spatial adherence can coexist with an unnatural transition or broken contact.",
+      "Keep control candidates behind capability detection; do not imply OmniControl is installed merely because the research paper is cited."
+    ]
+  },
+  {
+    "id": "AN81",
+    "title": "ProjFlow: Projection Sampling with Flow Matching for Zero-Shot Exact Spatial Motion Control",
+    "url": "https://arxiv.org/abs/2602.22742",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2026-02-26; arXiv v1",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "ProjFlow-2602.22742",
+    "findings": [
+      "ProjFlow formulates several motion tasks as linear inverse problems and uses a training-free flow-matching sampler to satisfy linear spatial constraints while retaining motion realism.",
+      "Its kinematics-aware metric distributes corrections across a skeleton, and time-varying pseudo-observations support sparse keyframes and motion inpainting; the paper also studies 2D-to-3D lifting."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read in the catalog; no sampler, checkpoint, local timing, or target-runtime behavior was tested.",
+      "The exact-constraint claim is scoped to the paper's linear-constraint formulation and skeleton representation; it is not a guarantee for arbitrary Blender rigs or nonlinear contacts.",
+      "The paper's realism comparisons do not replace visual review of the final camera, prop, or character."
+    ],
+    "skill_implications": [
+      "Represent sparse keyframes, paths, and contact anchors as bounded constraints that can be checked independently from aesthetic quality.",
+      "Use localized inpainting or repair when a few frames are wrong, then recheck the boundary and the protected motion outside the repair scope.",
+      "Treat exactness as a structural/temporal gate only where the contract defines the constraint; never turn a paper metric into a universal threshold."
+    ]
+  },
+  {
+    "id": "AN82",
+    "title": "FlowMDM: Seamless Human Motion Composition with Blended Positional Encodings",
+    "url": "https://arxiv.org/abs/2402.15509",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2024-02-23; arXiv v1",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "FlowMDM-2402.15509",
+    "findings": [
+      "FlowMDM targets long continuous motion compositions guided by changing text descriptions, using blended absolute and relative positional encodings to combine global coherence with smooth transitions.",
+      "The paper reports pose-centric cross-attention for robustness to changing descriptions and proposes Peak Jerk and Area Under the Jerk as diagnostics for abrupt transitions."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read; no model, sequence, timing measurement, or Blender playback was run.",
+      "Jerk metrics from the paper are diagnostic signals for its setting, not a universal requirement that every stylized, held, or mechanical animation minimize jerk.",
+      "The output is a research motion sequence, not evidence of a native editable Action, NLA setup, or target-engine clip."
+    ],
+    "skill_implications": [
+      "Give the internal critic an explicit transition pass: review clip boundaries at intended speed and in slow motion, and use jerk-like diagnostics only as clues.",
+      "When a request changes action or mood over time, preserve global phase and local transition context rather than concatenating isolated clips blindly.",
+      "Allow deliberate holds and snaps when the motion contract calls for them."
+    ]
+  },
+  {
+    "id": "AN83",
+    "title": "PhysDiff: Physics-Guided Human Motion Diffusion Model",
+    "url": "https://arxiv.org/abs/2212.02500",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2022-12-05; arXiv v3 2023-08-18",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "PhysDiff-2212.02500",
+    "findings": [
+      "PhysDiff identifies floating, foot sliding, and ground penetration as common failures of motion diffusion and inserts a physics-based motion projection step inside the denoising loop.",
+      "The paper reports that iterative physics guidance improves physical plausibility more than simple post-processing in its evaluated datasets."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read; the simulator, checkpoint, evaluation protocol, and any Blender/engine export were not executed.",
+      "A physics projection for the paper's human-motion setting does not guarantee correct props, deforming bodies, mechanical pivots, or stylized motion.",
+      "Physical plausibility and aesthetic appeal can conflict; the user-facing style contract still controls deliberate exaggeration or suspension."
+    ],
+    "skill_implications": [
+      "Classify ground-sensitive actions before authoring and make support, release, penetration, and root intent explicit in the contract.",
+      "If no physics backend is available, use evaluated contact/ground diagnostics and targeted repair; report physical simulation as NOT_TESTED.",
+      "Do not hide a failed contact under a beauty camera or call a post-render motion physically feasible."
+    ]
+  },
+  {
+    "id": "AN84",
+    "title": "InterGen: Diffusion-based Multi-human Motion Generation under Complex Interactions",
+    "url": "https://arxiv.org/abs/2304.05684",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2023-04-12; arXiv v3 2024-03-28",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "InterGen-2304.05684",
+    "findings": [
+      "InterGen extends motion diffusion to two-person interactions with cooperative denoisers, shared weights, mutual attention, and a representation of global relations between performers.",
+      "The authors introduce InterHuman with approximately 107M frames and 23,337 descriptions, and add spatial-relation regularization for interaction generation."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read; the dataset, code, checkpoint, and target-rig playback were not inspected or executed.",
+      "The benchmark is two-person human motion; it does not establish arbitrary actor counts, props, contacts, collision resolution, or engine event semantics.",
+      "Paper-reported interaction quality does not prove a final camera clearly communicates the interaction."
+    ],
+    "skill_implications": [
+      "For multi-actor requests, plan roles, initiation, response, relative spacing, and contact order before generating independent clips.",
+      "Check both performers and the world-space relationship between them; a plausible solo motion can still break the interaction.",
+      "Treat interaction generation as a candidate route and preserve an authored repair path for hands, feet, props, and camera staging."
+    ]
+  },
+  {
+    "id": "AN85",
+    "title": "Text2Interact: High-Fidelity and Diverse Text-to-Two-Person Interaction Generation",
+    "url": "https://arxiv.org/abs/2510.06504",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2025-10-07; ICLR 2026",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "Text2Interact-2510.06504",
+    "findings": [
+      "Text2Interact presents InterCompose, which composes a single-person motion prior with a conditional reaction generator and a neural evaluator, and InterActor, which uses word-level conditioning plus adaptive interaction supervision.",
+      "The paper explicitly targets token-level cues such as initiation, response, and contact ordering, and reports gains in diversity, fidelity, generalization, and user studies."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read; no code, model, user-study protocol, or native animation export was tested.",
+      "The method's human-human data and interaction representation do not establish a generic Blender object/prop route or physical contact guarantee.",
+      "A paper evaluator filtering weak samples is not the same as an inspected final asset; source/target rig and camera issues remain outside the abstract evidence."
+    ],
+    "skill_implications": [
+      "Compile interaction language into ordered semantic beats and contact relationships instead of a single undifferentiated action sentence.",
+      "Use an internal candidate filter and critic to reject misaligned reactions, while keeping user aesthetic judgment at the finished-output stage.",
+      "Recheck contact windows and ordering after retargeting or camera edits; word-level conditioning does not remove the need for temporal QA."
+    ]
+  },
+  {
+    "id": "AN86",
+    "title": "SATA: Semantic-Aware Motion Encoding for Topology-Agnostic Character Animation",
+    "url": "https://arxiv.org/abs/2605.27055",
+    "source_type": "primary_research_paper_and_official_code",
+    "published_or_updated": "Submitted 2026-05-26; ICML 2026; official code repository inspected via linked project reference",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "SATA-2605.27055",
+    "findings": [
+      "SATA learns a semantic-aware latent motion manifold across heterogeneous skeletal topologies and species, using functional joint correspondences instead of fixed hierarchy or padding assumptions.",
+      "The paper reports high-fidelity reconstruction, downstream text-to-motion, and zero-shot cross-species retargeting from unaligned BVH data; the abstract links an official implementation and demo repository."
+    ],
+    "limitations": [
+      "The paper abstract and linked official repository landing page were reviewed, but no installation, checkpoint, BVH conversion, or Blender retarget run was performed.",
+      "Semantic joint labels, source BVH quality, rest poses, and target deformation still need validation; topology-agnostic does not mean mapping-free or contact-safe.",
+      "ICML results are external evidence and do not establish that the repository is a drop-in, license-compatible backend for this plugin."
+    ],
+    "skill_implications": [
+      "Represent retargeting by semantic joint roles and an explicit rest-pose/map record rather than assuming matching bone indices.",
+      "Retain source and target hierarchy, scale, axes, and contact policy; run target-rig deformation and foot/hand checks after any cross-topology transfer.",
+      "Treat the official repository as a research lead until capability, dependency, and license checks pass in the actual environment."
+    ],
+    "related_urls": [
+      "https://github.com/zzysteve/SATA"
+    ]
+  },
+  {
+    "id": "AN87",
+    "title": "A Unified Conditional Flow for Motion Generation, Editing, and Intra-Structural Retargeting",
+    "url": "https://arxiv.org/abs/2604.13427",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2026-04-15; arXiv v3 2026-09-10",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "UnifiedConditionalFlow-2604.13427",
+    "findings": [
+      "The paper casts text-driven generation, semantic editing, and intra-structural retargeting as condition-modulated transport in one text- and skeleton-conditioned rectified-flow model.",
+      "It uses per-joint tokens, explicit joint self-attention, frame/joint text injection, and guidance that balances text adherence with skeletal conformity; the abstract reports zero-shot editing and retargeting on SnapMoGen and a multi-character Mixamo subset."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read; no model, Mixamo subset, code, Blender bridge, or export was executed.",
+      "The scope is intra-structural retargeting where topology is shared and bone lengths/rest poses may differ; it is not proof of arbitrary topology or arbitrary prop motion.",
+      "A zero-shot paper result does not establish correct contacts, expressive acting, or native runtime behavior after import."
+    ],
+    "skill_implications": [
+      "Keep semantic edits and skeleton changes as separate conditions in the motion plan, so an edit does not silently change the target structure.",
+      "Choose this kind of route only when the target topology/rest-pose contract is explicit; otherwise fall back to a map-and-repair workflow.",
+      "Validate text adherence, structure, contacts, and export independently; a single flow score cannot certify all four."
+    ]
+  },
+  {
+    "id": "AN88",
+    "title": "MotionAnimator: Semantic-to-Motion Reasoning for Animating Part-Structured 3D Assets in XR",
+    "url": "https://arxiv.org/abs/2610.15074v1",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2026-10-10; arXiv v1",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "MotionAnimator-2610.15074v1",
+    "findings": [
+      "MotionAnimator inserts explicit semantic and motion representations between natural-language intent and runtime code: it grounds object identity, parts, functional directions, and a coordinated object/part motion plan before generating Unity behavior.",
+      "The paper reports a 90-prompt/30-object benchmark and an exploratory user study, with the system aimed at semantically unlabeled, part-structured 3D assets."
+    ],
+    "limitations": [
+      "Only the arXiv v1 abstract was read; the Unity implementation, benchmark artifacts, runtime compilation, and user-study data were not reproduced.",
+      "The route is Unity-specific and assumes part-structured assets; it does not prove Blender Action authoring, rigging, or arbitrary mesh decomposition.",
+      "Paper-reported executable behavior and human/LLM judgments do not replace a target-native check for this plugin."
+    ],
+    "skill_implications": [
+      "Adopt two inspectable intermediate records for one-shot animation: an asset-semantic map (parts, pivots, functional axes) and a motion plan (beats, paths, dependencies, timing).",
+      "Resolve hierarchy and geometry before emitting curves or runtime code; never ask a novice to debug a wrong part or axis after delivery.",
+      "Keep the final aesthetic review at the finished-output stage while the agent internally checks object/part coordination and failure cases."
+    ]
+  },
+  {
+    "id": "AN89",
+    "title": "AgentDreamer: Agentic 3D Motion Reasoning for Text-Controllable Physics Simulation",
+    "url": "https://arxiv.org/abs/2610.30679v1",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2026-10-22; arXiv v1",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "AgentDreamer-2610.30679v1",
+    "findings": [
+      "AgentDreamer translates a text instruction and scene geometry into an explicit semantic motion prior describing what moves, in which direction, and in what temporal order, represented as parametric trajectories over temporal chunks.",
+      "It optimizes a differentiable material-point-method simulator against that prior and introduces Motion-IG, a masked-text-recovery metric for measuring text-motion alignment; the abstract reports improved alignment over video-based guidance."
+    ],
+    "limitations": [
+      "Only the arXiv v1 abstract and opening introduction were read; no MPM simulator, prompts, evaluation, code, or Blender export was executed.",
+      "The method targets scene physics and dense trajectories, not a generic skeletal rig, retarget map, or editable Blender Action.",
+      "Motion-IG and paper comparisons do not certify physical correctness or aesthetic appeal in a new scene, and an off-the-shelf agent remains a research dependency."
+    ],
+    "skill_implications": [
+      "Make temporal chunks, actor/object roles, direction, and order explicit before choosing a physics or keyframe route.",
+      "Separate semantic planning from physical realization: if a simulator is unavailable, preserve the plan and run available contact/trajectory diagnostics instead of claiming physics validation.",
+      "Keep scene geometry and material/physics assumptions in the contract; visual plausibility alone is insufficient for a motion that must obey support or collision."
+    ]
+  },
+  {
+    "id": "AN90",
+    "title": "VBench: Comprehensive Benchmark Suite for Video Generative Models",
+    "url": "https://arxiv.org/abs/2311.17982",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2023-11-29; arXiv v1",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "VBench-2311.17982",
+    "findings": [
+      "VBench decomposes video-generation quality into 16 hierarchical dimensions with tailored prompts and evaluation methods, including subject identity consistency, motion smoothness, temporal flickering, and spatial relationships.",
+      "The paper reports a human-preference annotation set intended to measure alignment with human perception and to expose dimension-specific model strengths and weaknesses."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read; no benchmark package, generated videos, scoring code, or human-preference data was run.",
+      "VBench evaluates generated video rather than an editable Blender Action, rig, export, or target runtime; its dimensions need adaptation to the requested medium.",
+      "A dimension score is diagnostic evidence, not a substitute for inspecting contacts, curves, deformation, or the user's final aesthetic preference."
+    ],
+    "skill_implications": [
+      "Use a small dimensioned critic checklist—identity, motion smoothness, flicker/stability, spatial relation, and semantic adherence—when a rendered animation is the evidence surface.",
+      "Keep visual metrics separate from deterministic temporal and structural checks, and report conflicts as UNCERTAIN instead of collapsing them into one quality number.",
+      "Do not claim VBench compliance unless the actual benchmark protocol and required media were executed."
+    ]
+  },
+  {
+    "id": "AN91",
+    "title": "AnimationBench: Are Video Models Good at Character-Centric Animation?",
+    "url": "https://arxiv.org/abs/2604.15299",
+    "source_type": "primary_research_paper",
+    "published_or_updated": "Submitted 2026-04-16; arXiv v1",
+    "retrieved_at": "2026-10-28",
+    "read_depth": "abstract",
+    "firsthand": true,
+    "study_key": "AnimationBench-2604.15299",
+    "findings": [
+      "AnimationBench targets stylized, character-centric image-to-video evaluation and operationalizes the Twelve Basic Principles of Animation plus IP Preservation as measurable dimensions.",
+      "It adds semantic consistency, motion rationality, and camera-motion consistency, and reports close-set/open-set protocols with visual-language-model assessment that aligns with human judgment in the paper's experiments."
+    ],
+    "limitations": [
+      "Only the arXiv abstract was read; no project code, prompts, videos, or judge protocol was run.",
+      "The benchmark concerns image-to-video outputs and stylized character evaluation, not editable keyframes, rig deformation, retargeting, or native Blender/engine playback.",
+      "VLM-based evaluation can be presentation-sensitive and does not prove a technically valid or legally distributable asset."
+    ],
+    "skill_implications": [
+      "Make the internal critic style-aware: check readable anticipation, timing/spacing, arcs, overlap, staging, semantic motion, and camera continuity only when the brief calls for them.",
+      "Use an equivalent clean preview and a known camera/playback protocol before comparing candidates; preserve human aesthetic judgment for the finished result.",
+      "Keep the benchmark's principles as diagnostic prompts, not universal animation requirements or an automatic pass threshold."
+    ]
+  }
+]

@@ -1,0 +1,83 @@
+name: Validate Blender Engineering package
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install development test dependencies
+        run: python -m pip install --disable-pip-version-check --no-input -r requirements-dev.txt
+
+      - name: Run repository unit tests when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          ran=0
+          if [[ -d tests ]] && find tests -type f -name 'test_*.py' -print -quit | grep -q .; then
+            python -m unittest discover -s tests -p 'test_*.py'
+            ran=1
+          fi
+          if [[ -d plugin/tests ]] && find plugin/tests -type f -name 'test_*.py' -print -quit | grep -q .; then
+            python -m unittest discover -s plugin/tests -p 'test_*.py'
+            ran=1
+          fi
+          sprite_ran=0
+          for sprite_tests in \
+            skills/blender-engineering-animation/tests \
+            plugin/skills/blender-engineering-animation/tests; do
+            if [[ -d "$sprite_tests" ]] && find "$sprite_tests" -type f -name 'test_*.py' -print -quit | grep -q .; then
+              python -m unittest discover -s "$sprite_tests" -p 'test_*.py'
+              ran=1
+              sprite_ran=1
+            fi
+          done
+          if [[ "$sprite_ran" -eq 0 ]]; then
+            echo "Animation sprite tests were not found; refusing to silently skip them." >&2
+            exit 1
+          fi
+          if [[ "$ran" -eq 0 ]]; then
+            echo "No repository unit-test files are present in this checkout."
+          fi
+
+      - name: Validate package contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f tools/validate_package.py ]]; then
+            validator=tools/validate_package.py
+          elif [[ -f plugin/tools/validate_package.py ]]; then
+            validator=plugin/tools/validate_package.py
+          else
+            echo "No package validator was found." >&2
+            exit 1
+          fi
+          validated=0
+          for skill_root in skills plugin/skills; do
+            [[ -d "$skill_root" ]] || continue
+            for skill in "$skill_root"/*; do
+              [[ -f "$skill/SKILL.md" ]] || continue
+              python "$validator" "$skill"
+              validated=1
+            done
+          done
+          if [[ "$validated" -eq 0 ]]; then
+            echo "No skill layout was found." >&2
+            exit 1
+          fi
+
+      - name: Build and read back release archive
+        run: python tools/package_release.py --output dist/blender-engineering-v0.1.0.zip --version 0.1.0

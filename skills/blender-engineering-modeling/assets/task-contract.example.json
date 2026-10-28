@@ -1,0 +1,40 @@
+{
+  "schema_version": "0.1",
+  "request": "Create a finished, editable asset from the user's ordinary-language brief.",
+  "criteria": [
+    {
+      "id": "C001",
+      "required": true,
+      "origin": "user_explicit",
+      "requirement": "The requested primary form and named features are represented in evaluated geometry."
+    },
+    {
+      "id": "C002",
+      "required": true,
+      "origin": "use_requirement",
+      "requirement": "Complementary rendered views were actually inspected against the brief and visual defects were recorded and resolved."
+    },
+    {
+      "id": "C003",
+      "required": true,
+      "origin": "use_requirement",
+      "requirement": "The exact saved source was reopened in a fresh process with required dependencies present."
+    },
+    {
+      "id": "C004",
+      "required": true,
+      "origin": "use_requirement",
+      "requirement": "Requested exports and target behavior were verified, or this criterion is explicitly inapplicable because no additional target was requested."
+    }
+  ],
+  "required_artifacts": [
+    {
+      "path": "deliverable/model.blend"
+    }
+  ],
+  "target": {
+    "representation": "editable_blender_scene",
+    "runtime": "Blender"
+  },
+  "template_policy": "Adapt representation, artifact paths, criteria, and applicability to the actual request before production. Every explicit deliverable and named target is required. Do not downgrade requirements after a failure."
+}

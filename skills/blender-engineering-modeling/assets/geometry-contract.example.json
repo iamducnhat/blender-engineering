@@ -1,0 +1,17 @@
+{
+  "asset_class": "adapt_to_the_requested_use",
+  "required_parts": [
+    {
+      "part_id": "primary_body",
+      "count": 1,
+      "type": "MESH",
+      "min_extent": 0.05
+    }
+  ],
+  "units": {
+    "system": "METRIC",
+    "scale_length": 1.0
+  },
+  "allow_missing_files": false,
+  "contract_policy": "This is the geometry adapter schema, separate from the task/evidence contract. Replace part identifiers, quantities, extents, units, dimensions, and applicable contact checks with values derived from the actual brief. Missing checks remain explicit coverage gaps; unsupported requested checks cannot pass."
+}

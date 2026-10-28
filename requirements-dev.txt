@@ -1,0 +1,4 @@
+# Optional image dependency used only by the sprite atlas/preview pipeline and
+# its tests. Blender modeling and the standard-library package tools do not
+# require Pillow.
+Pillow>=10.0

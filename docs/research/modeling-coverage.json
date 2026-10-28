@@ -1,0 +1,151 @@
+{
+  "generated_at": "2026-10-27",
+  "scope": "Offline catalog of the seven local research ledgers; no network access and no benchmark run.",
+  "source_entry_count": 98,
+  "unique_primary_url_count": 94,
+  "unique_hosts": [
+    "3dvar.com",
+    "academy.claude.com",
+    "aclanthology.org",
+    "ai.meta.com",
+    "arxiv.org",
+    "code.blender.org",
+    "developers.tripo3d.ai",
+    "docs.blender.org",
+    "docs.meshy.ai",
+    "fugtemypt123.github.io",
+    "github.com",
+    "proceedings.mlr.press",
+    "projects.blender.org",
+    "stability.ai",
+    "studio.blender.org",
+    "www.anthropic.com",
+    "www.blender.org",
+    "www.reddit.com"
+  ],
+  "unique_host_count": 18,
+  "counts_by_scope": {
+    "root": 3,
+    "specialist": 91
+  },
+  "source_ref_counts_by_scope": {
+    "root": 3,
+    "specialist": 95
+  },
+  "counts_by_read_depth": {
+    "abstract": 3,
+    "abstract_sections": 4,
+    "anecdotal": 17,
+    "artifact_or_repository": 3,
+    "attempted": 1,
+    "course_index_only": 2,
+    "deep": 15,
+    "documented_partial": 6,
+    "full": 7,
+    "full_page_or_source": 26,
+    "mixed_source_depths": 3,
+    "relevant_sections": 3,
+    "sections": 4
+  },
+  "source_ref_counts_by_read_depth": {
+    "abstract": 3,
+    "abstract_sections": 7,
+    "anecdotal": 17,
+    "artifact_or_repository": 3,
+    "attempted": 1,
+    "course_index_only": 2,
+    "deep": 16,
+    "documented_partial": 6,
+    "full": 10,
+    "full_page_or_source": 26,
+    "relevant_sections": 3,
+    "sections": 4
+  },
+  "deduplicated_entry_count": 3,
+  "deduplication_source_ref_savings": 4,
+  "duplicate_groups": [
+    {
+      "catalog_entry_id": "CAT-001",
+      "primary_url": "https://arxiv.org/abs/2610.23986v1",
+      "source_refs": [
+        "agentic:A01",
+        "qa:Q01"
+      ],
+      "reasons": [
+        "explicit_arxiv_version_bridge"
+      ]
+    },
+    {
+      "catalog_entry_id": "CAT-005",
+      "primary_url": "https://arxiv.org/abs/2403.01248",
+      "source_refs": [
+        "agentic:A05",
+        "generative:G15",
+        "qa:Q04"
+      ],
+      "reasons": [
+        "same_arxiv_identity_abs_html_or_version",
+        "same_normalized_primary_url"
+      ]
+    },
+    {
+      "catalog_entry_id": "CAT-011",
+      "primary_url": "https://arxiv.org/abs/2606.01057",
+      "source_refs": [
+        "agentic:A11",
+        "qa:Q02"
+      ],
+      "reasons": [
+        "same_arxiv_identity_abs_html_or_version",
+        "same_normalized_primary_url"
+      ]
+    }
+  ],
+  "special_evidence_boundaries": {
+    "C01": "Attempted access only: the official product page was not treated as a full read; claims were cross-checked against the upstream repository.",
+    "A13": "Abstract-level evidence only; the full paper was not read in this pass.",
+    "Q08": "Abstract and metadata only; no full paper was read in this pass.",
+    "Q09": "Abstract and metadata only; no full paper was read in this pass.",
+    "M11": "Course index and chapter list only; lesson videos were not downloaded or watched.",
+    "M12": "Course index and description only; lesson videos were not downloaded or watched."
+  },
+  "limitations": [
+    "The catalog packages ledger claims; it does not independently re-read or re-verify every source.",
+    "Canonical URL deduplication does not prove that two source records used identical text, protocol, or evidence scope; source_refs preserve those records separately.",
+    "The practitioner entries classified as anecdotal are useful reports and failure evidence, not representative success-rate measurements.",
+    "M11 and M12 describe course indexes/chapters; their lesson videos were not downloaded or watched.",
+    "No forward benchmark or generated Blender artifact was run by this script."
+  ],
+  "original_snapshot_sha256": "867ca7ba3c62347fe33730f22d2b0d71518310af3646b189ea490ef8f501a2f1",
+  "ledger_counts": [
+    {
+      "ledger": "agentic",
+      "source_entries": 15
+    },
+    {
+      "ledger": "control",
+      "source_entries": 16
+    },
+    {
+      "ledger": "generative",
+      "source_entries": 16
+    },
+    {
+      "ledger": "modeling",
+      "source_entries": 14
+    },
+    {
+      "ledger": "practitioner",
+      "source_entries": 20
+    },
+    {
+      "ledger": "qa",
+      "source_entries": 14
+    },
+    {
+      "ledger": "harness",
+      "source_entries": 3
+    }
+  ],
+  "interpretation": "Snapshot counts and read depths, not independent studies or plugin runtime results. Raw captures and the local investigation are not included."
+}

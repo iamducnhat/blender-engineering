@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blender Engineering Modeling"
+  short_description: "Create and QA finished 3D models"
+  default_prompt: "Use $blender-engineering-modeling to turn my one-sentence idea into a finished 3D model or scene, make it animation-ready when requested, inspect it from multiple views, repair defects, and deliver the requested files."

@@ -1,0 +1,40 @@
+{
+  "schema_version": "0.1",
+  "request": "Create a finished animation from the user's ordinary-language brief.",
+  "criteria": [
+    {
+      "id": "C001",
+      "required": true,
+      "origin": "user_explicit",
+      "requirement": "The requested motion intent, timing, and semantic parts are represented in the evaluated animation."
+    },
+    {
+      "id": "C002",
+      "required": true,
+      "origin": "use_requirement",
+      "requirement": "Intended-speed playback, slow diagnostics, and pose evidence were actually inspected and the review observations were recorded."
+    },
+    {
+      "id": "C003",
+      "required": true,
+      "origin": "use_requirement",
+      "requirement": "The exact saved editable source was reopened and required dependencies and timing were verified."
+    },
+    {
+      "id": "C004",
+      "required": true,
+      "origin": "use_requirement",
+      "requirement": "The requested target package and native playback or integration were verified. Additional target integration can be inapplicable only when the request does not require it."
+    }
+  ],
+  "required_artifacts": [
+    {
+      "path": "deliverable/animation-source.blend"
+    }
+  ],
+  "target": {
+    "representation": "native_animation_source",
+    "runtime": "Blender"
+  },
+  "template_policy": "Adapt representation, artifact paths, criteria, and applicability to the actual request before production. Every explicit deliverable and named target is required. Do not downgrade requirements after a failure."
+}

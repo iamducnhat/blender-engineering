@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1",
+  "results": [
+    {
+      "criterion_id": "C001",
+      "status": "NOT_TESTED",
+      "evidence": [],
+      "reason": "No run evidence has been collected in this example. Fill after performing the check."
+    },
+    {
+      "criterion_id": "C002",
+      "status": "NOT_TESTED",
+      "evidence": [],
+      "reason": "No run evidence has been collected in this example. Fill after performing the check."
+    },
+    {
+      "criterion_id": "C003",
+      "status": "NOT_TESTED",
+      "evidence": [],
+      "reason": "No run evidence has been collected in this example. Fill after performing the check."
+    },
+    {
+      "criterion_id": "C004",
+      "status": "NOT_TESTED",
+      "evidence": [],
+      "reason": "No run evidence has been collected in this example. Fill after performing the check."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "deliverable/model.blend",
+      "kind": "editable_source"
+    }
+  ],
+  "visual_review": {
+    "status": "NOT_TESTED",
+    "evaluation_independence": "SELF_EVAL_ONLY",
+    "observations": []
+  },
+  "reference_reading": [],
+  "user_taste_status": "NOT_EVALUATED",
+  "template_policy": "This unfilled example must fail the structural gate. A report statement or file hash cannot prove a visual observation or native playback."
+}
